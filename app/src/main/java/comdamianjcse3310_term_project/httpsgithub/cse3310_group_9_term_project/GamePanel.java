@@ -1,6 +1,7 @@
 package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -10,6 +11,11 @@ import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import java.util.Scanner;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -20,6 +26,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public static final int WIDTH = 856;
     public static final int HEIGHT = 480;
     public static final int MOVESPEED = -5;
+    private static File score_dir;
+    private static AssetManager assets;
     private long smokeStartTime;
     private long missileStartTime;
     private MainThread thread;
@@ -46,13 +54,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private boolean started;
     private int best;
 
-
-
     public GamePanel(Context context)
     {
         super(context);
 
-
+        score_dir = new File(context.getFilesDir().getAbsolutePath());
+        assets = context.getAssets();
         //add the callback to the surfaceholder to intercept events
         getHolder().addCallback(this);
 
@@ -86,7 +93,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder){
 
-        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
+        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background));
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 65, 25, 3);
         smoke = new ArrayList<Smokepuff>();
         missiles = new ArrayList<Missile>();
@@ -128,9 +135,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         return super.onTouchEvent(event);
     }
 
-    public void update()
-
-    {
+    public void update() {
         if(player.getPlaying()) {
 
             if(botborder.isEmpty())
@@ -410,16 +415,31 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         minBorderHeight = 5;
         maxBorderHeight = 30;
 
+        if(player.getScore() > best)
+        {
+            try {
+                FileWriter fw = new FileWriter(score_dir + "/hi-score.txt", false);
+                fw.write(new Integer(player.getScore()).toString());
+                fw.close();
+            }
+            catch(IOException e) {
+                System.exit(1);
+            }
+            best = player.getScore();
+        }
+
+        try {
+            Scanner fileInput;
+            fileInput = new Scanner(new File(score_dir + "/hi-score.txt"));
+            best = fileInput.nextInt();
+        }
+        catch(FileNotFoundException e) {
+            best = 0;
+        }
+
         player.resetDY();
         player.resetScore();
         player.setY(HEIGHT/2);
-
-        if(player.getScore()>best)
-        {
-            best = player.getScore();
-
-        }
-
         //create initial borders
 
         //initial top border
@@ -463,15 +483,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(30);
-        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
-        canvas.drawText("DISTANCE: " + (player.getScore()*3), 10, HEIGHT - 10, paint);
+        paint.setTypeface(Typeface.createFromAsset(assets, "fonts/shadowed_font.ttc"));
+        canvas.drawText("SCORE: " + player.getScore(), 10, HEIGHT - 10, paint);
         canvas.drawText("BEST: " + best, WIDTH - 215, HEIGHT - 10, paint);
 
         if(!player.getPlaying()&&newGameCreated&&reset)
         {
             Paint paint1 = new Paint();
             paint1.setTextSize(40);
-            paint1.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
+            paint1.setTypeface(Typeface.createFromAsset(assets, "fonts/shadowed_font.ttc"));
             canvas.drawText("PRESS TO START", WIDTH/2-50, HEIGHT/2, paint1);
 
             paint1.setTextSize(20);
