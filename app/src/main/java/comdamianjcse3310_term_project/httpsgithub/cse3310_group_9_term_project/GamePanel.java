@@ -22,8 +22,8 @@ import java.util.Random;
 
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
-    public static final int WIDTH = 856;
-    public static final int HEIGHT = 480;
+    public static final int WIDTH = 2560;
+    public static final int HEIGHT = 1440;
     public static final int MOVESPEED = -5;
     private static File score_dir;
     private static AssetManager assets;
@@ -88,7 +88,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background));
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferQualityOverSpeed = true;
+        options.inDither = true;
+        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background, options));
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 65, 25, 3);
         bubble = new ArrayList<BubbleTrail>();
         missiles = new ArrayList<Missile>();
@@ -423,22 +426,24 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     }
     public void drawText(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(30);
-        paint.setTypeface(Typeface.createFromAsset(assets, "fonts/score_font.ttf"));
-        canvas.drawText("SCORE: " + player.getScore(), 10, HEIGHT - 10, paint);
-        canvas.drawText("BEST: " + best, WIDTH - (15 * ("BEST: " + best).length()) - 10, HEIGHT - 10, paint);
+        Paint static_text = new Paint();
+        static_text.setAntiAlias(false);
+        static_text.setColor(Color.BLACK);
+        static_text.setTextSize(90);
+        static_text.setTypeface(Typeface.createFromAsset(assets, "fonts/score_font.ttf"));
+        canvas.drawText("SCORE: " + player.getScore(), 10, HEIGHT - 10, static_text);
+        canvas.drawText("BEST: " + best, WIDTH - (45 * ("BEST: " + best).length()) - 10, HEIGHT - 10, static_text);
 
         if(!player.getPlaying() && newGameCreated && reset) {
-            Paint paint1 = new Paint();
-            paint1.setTextSize(40);
-            paint1.setTypeface(Typeface.createFromAsset(assets, "fonts/main_font.otf"));
-            canvas.drawText("PRESS TO START", WIDTH/2-50, HEIGHT/2, paint1);
+            Paint newGameText = new Paint();
+            newGameText.setAntiAlias(true);
+            newGameText.setTextSize(120);
+            newGameText.setTypeface(Typeface.createFromAsset(assets, "fonts/main_font.otf"));
+            canvas.drawText("PRESS TO START", WIDTH/2-50, HEIGHT/2, newGameText);
 
-            paint1.setTextSize(20);
-            canvas.drawText("PRESS AND HOLD TO GO UP", WIDTH/2-50, HEIGHT/2 + 25, paint1);
-            canvas.drawText("RELEASE TO GO DOWN", WIDTH/2-50, HEIGHT/2 + 45, paint1);
+            newGameText.setTextSize(60);
+            canvas.drawText("PRESS AND HOLD TO GO UP", WIDTH/2-50, HEIGHT/2 + 60, newGameText);
+            canvas.drawText("RELEASE TO GO DOWN", WIDTH/2-50, HEIGHT/2 + 110, newGameText);
         }
     }
 
