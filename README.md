@@ -1,4 +1,4 @@
-# Term Project - Group 9
+# CSE3310 Term Project - Group 9
 ### Description
 This repository holds the source code for a simple obstacle dodging game.
 
