@@ -3,8 +3,7 @@ package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-public class MainThread extends Thread
-{
+public class MainThread extends Thread {
     private int FPS = 30;
     private double averageFPS;
     private SurfaceHolder surfaceHolder;
@@ -12,15 +11,13 @@ public class MainThread extends Thread
     private boolean running;
     public static Canvas canvas;
 
-    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel)
-    {
+    public MainThread(SurfaceHolder surfaceHolder, GamePanel gamePanel) {
         super();
         this.surfaceHolder = surfaceHolder;
         this.gamePanel = gamePanel;
     }
     @Override
-    public void run()
-    {
+    public void run() {
         long startTime;
         long timeMillis;
         long waitTime;
@@ -42,30 +39,30 @@ public class MainThread extends Thread
             }
             catch (Exception e) {
             }
-            finally{
-                if(canvas!=null)
-                {
+            finally {
+                if(canvas!=null) {
                     try {
                         surfaceHolder.unlockCanvasAndPost(canvas);
                     }
-                    catch(Exception e){e.printStackTrace();}
+                    catch(Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-
-
-
 
             timeMillis = (System.nanoTime() - startTime) / 1000000;
             waitTime = targetTime-timeMillis;
 
-            try{
+            try {
                 this.sleep(waitTime);
-            }catch(Exception e){}
+            }
+            catch(Exception e) {
+
+            }
 
             totalTime += System.nanoTime()-startTime;
             frameCount++;
-            if(frameCount == FPS)
-            {
+            if(frameCount == FPS) {
                 averageFPS = 1000/((totalTime/frameCount)/1000000);
                 frameCount =0;
                 totalTime = 0;
@@ -73,8 +70,7 @@ public class MainThread extends Thread
             }
         }
     }
-    public void setRunning(boolean b)
-    {
-        running=b;
+    public void setRunning(boolean b) {
+        running = b;
     }
 }

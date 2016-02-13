@@ -4,10 +4,8 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
 
-public class Player extends GameObject{
-    private Bitmap spritesheet;
+public class Player extends GameObject {
     private int score;
-
     private boolean up;
     private boolean playing;
     private Animation animation = new Animation();
@@ -23,11 +21,9 @@ public class Player extends GameObject{
         width = w;
 
         Bitmap[] image = new Bitmap[numFrames];
-        spritesheet = res;
 
-        for (int i = 0; i < image.length; i++)
-        {
-            image[i] = Bitmap.createBitmap(spritesheet, i*width, 0, width, height);
+        for (int i = 0; i < image.length; i++) {
+            image[i] = Bitmap.createBitmap(res, i*width, 0, width, height);
         }
 
         animation.setFrames(image);
@@ -36,23 +32,23 @@ public class Player extends GameObject{
 
     }
 
-    public void setUp(boolean b){up = b;}
+    public void setUp(boolean b) {
+        up = b;
+    }
 
-    public void update()
-    {
+    public void update() {
         long elapsed = (System.nanoTime()-startTime)/1000000;
-        if(elapsed>100)
-        {
+        if(elapsed>100) {
             score++;
             startTime = System.nanoTime();
         }
         animation.update();
 
-        if(up){
+        if(up) {
             dy -=1;
 
         }
-        else{
+        else {
             dy +=1;
         }
 
@@ -60,16 +56,24 @@ public class Player extends GameObject{
         if(dy<-14)dy = -14;
 
         y += dy*2;
-
     }
 
-    public void draw(Canvas canvas)
-    {
+    public void draw(Canvas canvas) {
         canvas.drawBitmap(animation.getImage(),x,y,null);
     }
-    public int getScore(){return score;}
-    public boolean getPlaying(){return playing;}
-    public void setPlaying(boolean b){playing = b;}
-    public void resetDY(){dy = 0;}
-    public void resetScore(){score = 0;}
+    public int getScore() {
+        return score;
+    }
+    public boolean getPlaying() {
+        return playing;
+    }
+    public void setPlaying(boolean b) {
+        playing = b;
+    }
+    public void resetDY() {
+        dy = 0;
+    }
+    public void resetScore() {
+        score = 0;
+    }
 }
