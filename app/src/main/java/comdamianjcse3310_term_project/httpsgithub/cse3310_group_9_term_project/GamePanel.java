@@ -483,20 +483,20 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
         Paint paint = new Paint();
         paint.setColor(Color.BLACK);
         paint.setTextSize(30);
-        paint.setTypeface(Typeface.createFromAsset(assets, "fonts/shadowed_font.ttc"));
+        paint.setTypeface(Typeface.createFromAsset(assets, "fonts/score_font.ttf"));
         canvas.drawText("SCORE: " + player.getScore(), 10, HEIGHT - 10, paint);
-        canvas.drawText("BEST: " + best, WIDTH - 215, HEIGHT - 10, paint);
+        canvas.drawText("BEST: " + best, WIDTH - (15 * ("BEST: " + best).length()) - 10, HEIGHT - 10, paint);
 
         if(!player.getPlaying()&&newGameCreated&&reset)
         {
             Paint paint1 = new Paint();
             paint1.setTextSize(40);
-            paint1.setTypeface(Typeface.createFromAsset(assets, "fonts/shadowed_font.ttc"));
+            paint1.setTypeface(Typeface.createFromAsset(assets, "fonts/main_font.otf"));
             canvas.drawText("PRESS TO START", WIDTH/2-50, HEIGHT/2, paint1);
 
             paint1.setTextSize(20);
-            canvas.drawText("PRESS AND HOLD TO GO UP", WIDTH/2-50, HEIGHT/2 + 20, paint1);
-            canvas.drawText("RELEASE TO GO DOWN", WIDTH/2-50, HEIGHT/2 + 40, paint1);
+            canvas.drawText("PRESS AND HOLD TO GO UP", WIDTH/2-50, HEIGHT/2 + 25, paint1);
+            canvas.drawText("RELEASE TO GO DOWN", WIDTH/2-50, HEIGHT/2 + 45, paint1);
         }
     }
 
