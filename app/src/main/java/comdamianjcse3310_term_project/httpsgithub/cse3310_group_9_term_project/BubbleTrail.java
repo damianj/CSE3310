@@ -19,10 +19,8 @@ public class BubbleTrail extends GameObject {
         Paint paint = new Paint();
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
-        paint.setAlpha(128);
-        canvas.drawCircle(x - r, y - r, r, paint);
 
-        for(int i = 10; i <= 10; i++) {
+        for(int i = 11; i <= 11; i++) {
             paint.setAlpha(new Random().nextInt(128) + 80);
             int randOffX = new Random().nextInt(10) - 5;
             int randOffY = new Random().nextInt(10) - 5;
