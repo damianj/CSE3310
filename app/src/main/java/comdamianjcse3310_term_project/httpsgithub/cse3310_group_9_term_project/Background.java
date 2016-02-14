@@ -16,7 +16,7 @@ public class Background {
         x = x < -GamePanel.WIDTH ? 0 : x;
     }
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(image, x, y,null);
+        canvas.drawBitmap(image, x, y, null);
         if(x<0) {
             canvas.drawBitmap(image, x+GamePanel.WIDTH, y, null);
         }

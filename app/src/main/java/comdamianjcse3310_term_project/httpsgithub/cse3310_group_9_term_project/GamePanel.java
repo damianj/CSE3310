@@ -2,6 +2,7 @@ package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -89,6 +90,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
         options.inPreferQualityOverSpeed = true;
         options.inDither = true;
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background, options));
