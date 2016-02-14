@@ -12,7 +12,7 @@ public class BotBorder extends GameObject {
 
         this.x = x;
         this.y = y;
-        dx = GamePanel.MOVESPEED;
+        dx = GamePanel.MOVE_SPEED;
 
         image = Bitmap.createBitmap(res, 0, 0, width, height);
 
