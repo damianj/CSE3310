@@ -2,6 +2,7 @@ package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import java.util.Random;
 
@@ -39,7 +40,10 @@ public class Missile extends GameObject{
     }
     public void draw(Canvas canvas) {
         try {
-            canvas.drawBitmap(animation.getImage(),x,y,null);
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setDither(true);
+            canvas.drawBitmap(animation.getImage(), x, y, paint);
         }
         catch(Exception e) {
         }

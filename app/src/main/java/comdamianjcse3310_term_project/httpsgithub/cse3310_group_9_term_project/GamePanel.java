@@ -89,11 +89,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-        options.inPreferQualityOverSpeed = true;
-        options.inDither = true;
-        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background, options));
+        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background));
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 65, 25, 3);
         bubble = new ArrayList<BubbleTrail>();
         missiles = new ArrayList<Missile>();
@@ -253,7 +249,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         final float scaleFactorX = getWidth()/(WIDTH*1.f);
         final float scaleFactorY = getHeight()/(HEIGHT*1.f);
 
-        if(canvas!=null) {
+        if(canvas != null) {
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
             bg.draw(canvas);

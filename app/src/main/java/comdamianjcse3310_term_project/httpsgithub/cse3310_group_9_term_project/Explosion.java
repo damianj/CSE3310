@@ -2,6 +2,7 @@ package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class Explosion {
     private int x;
@@ -28,7 +29,10 @@ public class Explosion {
     }
     public void draw(Canvas canvas) {
         if(!animation.playedOnce()) {
-            canvas.drawBitmap(animation.getImage(),x,y,null);
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setDither(true);
+            canvas.drawBitmap(animation.getImage(), x, y, paint);
         }
 
     }

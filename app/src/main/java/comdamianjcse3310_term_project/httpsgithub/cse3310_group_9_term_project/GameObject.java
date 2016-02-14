@@ -29,7 +29,7 @@ public abstract class GameObject {
         return width;
     }
     public Rect getRectangle() {
-        return new Rect(x, y, x+width, y+height);
+        return new Rect(x, y, x + width, y + height);
     }
 
 }

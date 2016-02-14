@@ -2,6 +2,7 @@ package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class Background {
 
@@ -16,9 +17,12 @@ public class Background {
         x = x < -GamePanel.WIDTH ? 0 : x;
     }
     public void draw(Canvas canvas) {
-        canvas.drawBitmap(image, x, y, null);
-        if(x<0) {
-            canvas.drawBitmap(image, x+GamePanel.WIDTH, y, null);
+	    Paint paint = new Paint();
+	    paint.setAntiAlias(true);
+	    paint.setDither(true);
+        canvas.drawBitmap(image, x, y, paint);
+        if(x < 0) {
+            canvas.drawBitmap(image, x+GamePanel.WIDTH, y, paint);
         }
     }
     public void setVector(int dx) {

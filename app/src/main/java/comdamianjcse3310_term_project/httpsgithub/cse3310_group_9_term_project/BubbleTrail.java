@@ -17,6 +17,8 @@ public class BubbleTrail extends GameObject {
     public void draw(Canvas canvas) {
         float r = (float) 1.5;
         Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setDither(true);
         paint.setColor(Color.WHITE);
         paint.setStyle(Paint.Style.FILL);
 
