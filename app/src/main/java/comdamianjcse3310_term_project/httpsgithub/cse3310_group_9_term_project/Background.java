@@ -11,6 +11,7 @@ public class Background {
 
     public Background(Bitmap res) {
         image = res;
+        y = 0;
     }
     public void update() {
         x += dx;

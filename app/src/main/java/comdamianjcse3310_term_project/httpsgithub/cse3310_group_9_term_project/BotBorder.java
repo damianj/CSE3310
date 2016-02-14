@@ -23,10 +23,15 @@ public class BotBorder extends GameObject {
 
     }
     public void draw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setDither(true);
-        canvas.drawBitmap(image, x, y, paint);
+        try {
+            Paint paint = new Paint();
+            paint.setAntiAlias(true);
+            paint.setDither(true);
+            canvas.drawBitmap(image, x, y, paint);
+        }
+        catch(Exception e) {
+            System.err.println("ERROR: " + e.toString());
+        }
 
     }
 }

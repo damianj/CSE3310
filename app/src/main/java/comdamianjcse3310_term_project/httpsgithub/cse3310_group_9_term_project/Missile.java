@@ -7,19 +7,16 @@ import android.graphics.Paint;
 import java.util.Random;
 
 public class Missile extends GameObject{
-    private int score;
-    private int speed;
-    private Random rand = new Random();
-    private Animation animation = new Animation();
+	private int speed;
+	private Animation animation = new Animation();
 
     public Missile(Bitmap res, int x, int y, int w, int h, int s, int numFrames) {
         super.x = x;
         super.y = y;
         width = w;
         height = h;
-        score = s;
 
-        speed = 7 + (int) (rand.nextDouble()*score/30);
+	    speed = 7 + (int) (new Random().nextDouble()* s /30);
 
         //cap missile speed
         speed = speed > 40 ? 40 : speed;
@@ -46,6 +43,7 @@ public class Missile extends GameObject{
             canvas.drawBitmap(animation.getImage(), x, y, paint);
         }
         catch(Exception e) {
+            System.err.println("ERROR: " + e.toString());
         }
     }
 

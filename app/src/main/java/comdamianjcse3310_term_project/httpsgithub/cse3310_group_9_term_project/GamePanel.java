@@ -2,7 +2,6 @@ package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -43,9 +42,6 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private boolean topDown = true;
     private boolean botDown = true;
     private boolean newGameCreated;
-
-    //increase to slow down difficulty progression, decrease to speed up difficulty progression
-    private int progressDenom = 20;
 
     private Explosion explosion;
     private long startReset;
@@ -91,10 +87,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(SurfaceHolder holder) {
         bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.background));
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.helicopter), 65, 25, 3);
-        bubble = new ArrayList<BubbleTrail>();
-        missiles = new ArrayList<Missile>();
-        topBorder = new ArrayList<TopBorder>();
-        botBorder = new ArrayList<BotBorder>();
+        bubble = new ArrayList<>();
+        missiles = new ArrayList<>();
+        topBorder = new ArrayList<>();
+        botBorder = new ArrayList<>();
         bubbleStartTime=  System.nanoTime();
         missileStartTime = System.nanoTime();
         thread = new MainThread(getHolder(), this);
@@ -143,10 +139,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
             //max and min border heart are updated, and the border switched direction when either max or
             //min is met
 
-            maxBorderHeight = 30 + player.getScore()/progressDenom;
+            int progressDenom = 20;
+            maxBorderHeight = 30 + player.getScore()/ progressDenom;
             //cap max border height so that borders can only take up a total of 1/2 the screen
             maxBorderHeight = maxBorderHeight > (HEIGHT/4) ? (HEIGHT/4) : maxBorderHeight;
-            minBorderHeight = 5 + player.getScore()/progressDenom;
+            minBorderHeight = 5 + player.getScore()/ progressDenom;
 
             //check bottom border collision
             for(int i = 0; i<botBorder.size(); i++) {
@@ -238,10 +235,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     }
     public boolean collision(GameObject a, GameObject b) {
-        if(Rect.intersects(a.getRectangle(), b.getRectangle())) {
-            return true;
-        }
-        return false;
+        return Rect.intersects(a.getRectangle(), b.getRectangle());
     }
     
     @Override
@@ -373,7 +367,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         if(player.getScore() > best) {
             try {
                 FileWriter fw = new FileWriter(score_dir + "/hi-score.txt", false);
-                fw.write(new Integer(player.getScore()).toString());
+                fw.write(Integer.valueOf(player.getScore()) + "\n");
                 fw.close();
             }
             catch(IOException e) {

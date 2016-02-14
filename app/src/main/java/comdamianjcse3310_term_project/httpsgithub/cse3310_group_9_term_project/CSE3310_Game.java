@@ -2,10 +2,7 @@ package comdamianjcse3310_term_project.httpsgithub.cse3310_group_9_term_project;
 
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;

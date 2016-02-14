@@ -28,7 +28,7 @@ public class TopBorder extends GameObject{
             canvas.drawBitmap(image, x, y, paint);
         }
         catch(Exception e) {
-
+            System.err.println("ERROR: " + e.toString());
         }
     }
 
