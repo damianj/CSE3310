@@ -6,27 +6,30 @@ import android.graphics.Paint;
 
 public class Background {
 
-    private Bitmap image;
-    private int x, y, dx;
+	private Bitmap image;
+	private int x, y, dx;
 
-    public Background(Bitmap res) {
-        image = res;
-        y = 0;
-    }
-    public void update() {
-        x += dx;
-        x = x < -GamePanel.WIDTH ? 0 : x;
-    }
-    public void draw(Canvas canvas) {
-	    Paint paint = new Paint();
-	    paint.setAntiAlias(true);
-	    paint.setDither(true);
-        canvas.drawBitmap(image, x, y, paint);
-        if(x < 0) {
-            canvas.drawBitmap(image, x+GamePanel.WIDTH, y, paint);
-        }
-    }
-    public void setVector(int dx) {
-        this.dx = dx;
-    }
+	public Background(Bitmap res) {
+		image = res;
+		y = 0;
+	}
+
+	public void update() {
+		x += dx;
+		x = x < -GamePanel.WIDTH ? 0 : x;
+	}
+
+	public void draw(Canvas canvas) {
+		Paint paint = new Paint();
+		paint.setAntiAlias(true);
+		paint.setDither(true);
+		canvas.drawBitmap(image, x, y, paint);
+		if(x < 0) {
+			canvas.drawBitmap(image, x + GamePanel.WIDTH, y, paint);
+		}
+	}
+
+	public void setVector(int dx) {
+		this.dx = dx;
+	}
 }
