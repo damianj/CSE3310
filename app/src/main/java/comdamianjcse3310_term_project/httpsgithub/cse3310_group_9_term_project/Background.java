@@ -20,9 +20,7 @@ public class Background {
 	}
 
 	public void draw(Canvas canvas) {
-		Paint paint = new Paint();
-		paint.setAntiAlias(true);
-		paint.setDither(true);
+		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
 		canvas.drawBitmap(image, x, y, paint);
 		if(x < 0) {
 			canvas.drawBitmap(image, x + GamePanel.WIDTH, y, paint);

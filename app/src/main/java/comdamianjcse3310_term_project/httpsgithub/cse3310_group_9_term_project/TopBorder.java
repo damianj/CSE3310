@@ -24,9 +24,7 @@ public class TopBorder extends GameObject {
 
 	public void draw(Canvas canvas) {
 		try {
-			Paint paint = new Paint();
-			paint.setAntiAlias(true);
-			paint.setDither(true);
+			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
 			canvas.drawBitmap(image, x, y, paint);
 		} catch(Exception e) {
 			System.err.println("ERROR: " + e.toString());

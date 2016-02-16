@@ -423,8 +423,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("BEST: " + best, WIDTH - (45 * ("BEST: " + best).length()) - 10, HEIGHT - 10, score_text);
 
 		if(!player.getPlaying() && newGameCreated && reset) {
-			Paint newGameText = new Paint();
-			newGameText.setAntiAlias(true);
+			Paint newGameText = new Paint(Paint.ANTI_ALIAS_FLAG);
 			newGameText.setTextSize(120);
 			newGameText.setTypeface(Typeface.createFromAsset(assets, "fonts/main_font.otf"));
 			canvas.drawText("PRESS TO START", WIDTH / 2 - 50, HEIGHT / 2, newGameText);

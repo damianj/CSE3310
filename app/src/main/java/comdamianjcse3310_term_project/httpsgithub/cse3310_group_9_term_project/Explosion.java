@@ -30,9 +30,7 @@ public class Explosion {
 
 	public void draw(Canvas canvas) {
 		if(!animation.playedOnce()) {
-			Paint paint = new Paint();
-			paint.setAntiAlias(true);
-			paint.setDither(true);
+			Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.DITHER_FLAG);
 			canvas.drawBitmap(animation.getImage(), x, y, paint);
 		}
 
