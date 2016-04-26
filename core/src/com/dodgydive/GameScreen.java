@@ -2,15 +2,18 @@ package com.dodgydive;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
@@ -18,17 +21,24 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.io.IOException;
+import java.util.Locale;
+
+
 /**
  * Created by mwhar on 4/20/2016.
  */
 public class GameScreen extends ScreenAdapter {
 
-    private static final int WORLD_WIDTH = 1920;
-    private static final int WORLD_HEIGHT = 1080;
+    private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
+    private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
 
     private final DodgyDiveGame dodgyDiveGame;
 
     private boolean debugMode;
+
+    private FileHandle scoresFileHandle;
+    private int[] scores;
 
     private BitmapFont scoreFont;
     private BitmapFont debugFont;
@@ -89,6 +99,9 @@ public class GameScreen extends ScreenAdapter {
 
         super.show();
 
+        scoresFileHandle = Gdx.files.local("scores.txt");
+        scores = loadScores(scoresFileHandle);
+
         // Set up the camera to be orthographic and put it at the center of the screen.
         // The camera allows us to view a portion of the game world.
         camera = new OrthographicCamera();
@@ -104,8 +117,18 @@ public class GameScreen extends ScreenAdapter {
         // Create a new SpriteBatch for drawing images in batches of draw calls
         batch = new SpriteBatch();
 
-        // Get the scoreFont for score info and debugFont for debug info from the atlas
-        scoreFont = dodgyDiveGame.getAssetManager().get("score_font.fnt");
+        // Generate the score font on the fly from a .ttf file
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("score_font.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        parameter.size = 58;
+        parameter.kerning = false;
+        parameter.borderStraight = true;
+        parameter.borderWidth = 4;
+        parameter.borderColor = Color.BLACK;
+        scoreFont = generator.generateFont(parameter);
+        scoreFont.setColor(1, 1, 1, 0.667f); // Make our font slightly transparent so it doesn't obscure sharks during game-play
+        generator.dispose(); // don't forget to dispose to avoid memory leaks!
+        // Get the debug font for debug info from the atlas
         debugFont = dodgyDiveGame.getAssetManager().get("debug_font.fnt");
         glyphLayout = new GlyphLayout();
 
@@ -182,7 +205,7 @@ public class GameScreen extends ScreenAdapter {
     *
     */
     private void endGame() {
-
+        updateScores(scoresFileHandle, scores, score);
         scoreTimer.stop();
         scoreTimer.clear();
         dodgyDiveGame.setScreen(new StartScreen(dodgyDiveGame));
@@ -233,7 +256,7 @@ public class GameScreen extends ScreenAdapter {
         shapeRenderer.setTransformMatrix(camera.view);
 
         // Setup the string and glyphLayout for debug information
-        String debugString = String.format("FPS: %d\nPOS X: %d\nPOS Y: %d",
+        String debugString = String.format(Locale.US, "FPS: %d\nPOS X: %d\nPOS Y: %d",
                 Gdx.graphics.getFramesPerSecond(), (int)diver.getX(), (int)diver.getY());
         glyphLayout.setText(debugFont, debugString);
 
@@ -262,7 +285,7 @@ public class GameScreen extends ScreenAdapter {
     private void drawScore() {
 
         // Format the scoreString to have the most recent score
-        String scoreString = String.format("Score: %d", score);
+        String scoreString = String.format(Locale.US, "Hi-Score: %d | Score: %d", scores[4], score);
         glyphLayout.setText(scoreFont, scoreString);
 
         // Begin drawing the score
@@ -370,5 +393,52 @@ public class GameScreen extends ScreenAdapter {
                 createShark();
             }
         }
+    }
+
+    public int[] loadScores(FileHandle scores_txt) {
+        int[] file_scores = new int[5];
+
+        if(scores_txt.exists()) {
+            String[] score_txt_arr = scores_txt.readString().split("\\n");
+            for(int i = 0; i < 5; i++) {
+                file_scores[i] = Integer.parseInt(score_txt_arr[i]);
+            }
+
+            return file_scores;
+        }
+        else {
+            try {
+                scores_txt.file().createNewFile();
+            }
+            catch(IOException e) {
+                // System.out.printf("Exception: " + e.toString());
+            }
+            return new int[] {0, 0, 0, 0, 0};
+        }
+    }
+
+    public int[] updateScores(FileHandle scores_txt, int[] scores, int newScore) {
+        int index = -1, temp, store = newScore;
+
+
+        for(int i = 0; i < 5; i++) {
+            index = (scores[i] < newScore) ? i : index;
+        }
+
+        for(int i = index; i > -1; i--) {
+            temp = scores[i];
+            scores[i] = store;
+            store = temp;
+        }
+
+        for(int i = 0; i < 5; i++) {
+            if(i == 0) {
+                scores_txt.writeString(scores[i] + "\n", false);
+            }
+            else {
+                scores_txt.writeString(scores[i] + "\n", true);
+            }
+        }
+        return scores;
     }
 }

@@ -53,7 +53,6 @@ public class Diver {
     *
     */
     public void update(float delta) {
-
         // Update the animationTimer by the amount of time since the last frame was displayed
         animationTimer += delta;
 
