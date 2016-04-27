@@ -2,6 +2,7 @@ package com.dodgydive;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
@@ -40,6 +41,9 @@ public class GameScreen extends ScreenAdapter {
     private FileHandle scoresFileHandle;
     private int[] scores;
 
+    private Music gameMusic;
+    private float musicVolume = 0.5f;
+
     private BitmapFont scoreFont;
     private BitmapFont debugFont;
     private GlyphLayout glyphLayout;
@@ -50,9 +54,11 @@ public class GameScreen extends ScreenAdapter {
     private ShapeRenderer shapeRenderer;
 
     private TextureRegion background;
+    private String background_name = "background"; // background is default, background_radioactive is the other one
 
     private TextureRegion diverTexture;
     private Diver diver;
+    private String diver_costume = "diver"; // diver is default, diver_alt is the other "costume"
 
     private TextureRegion sharkTexture;
     private Array<Shark> sharks = new Array<Shark>();
@@ -117,6 +123,7 @@ public class GameScreen extends ScreenAdapter {
         // Create a new SpriteBatch for drawing images in batches of draw calls
         batch = new SpriteBatch();
 
+        gameMusic = Gdx.audio.newMusic(Gdx.files.internal("game_music.mp3"));
         // Generate the score font on the fly from a .ttf file
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("score_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -135,11 +142,11 @@ public class GameScreen extends ScreenAdapter {
         // Use asset manager to get the texture atlas (one big indexed image of all the game's assets)
         // and find the region of the atlas for the game's background
         TextureAtlas textureAtlas = dodgyDiveGame.getAssetManager().get("dodgy_dive_assets.atlas");
-        background = textureAtlas.findRegion("background");
+        background = textureAtlas.findRegion(background_name);
 
         // Again use the asset manager to find the texture for the diver character, create the diver
         // instance and then set it's position to the center of 1/4th of the screen width
-        diverTexture = textureAtlas.findRegion("diver");
+        diverTexture = textureAtlas.findRegion(diver_costume);
         diver = new Diver(diverTexture);
         diver.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
 
@@ -157,6 +164,10 @@ public class GameScreen extends ScreenAdapter {
 
         }, 1f, 1f);
         scoreTimer.start();
+
+        gameMusic.setVolume(musicVolume); // sets the volume to half the maximum volume
+        gameMusic.play();
+        gameMusic.setLooping(true);
     }
 
     /*
@@ -205,6 +216,7 @@ public class GameScreen extends ScreenAdapter {
     *
     */
     private void endGame() {
+        gameMusic.stop();
         updateScores(scoresFileHandle, scores, score);
         scoreTimer.stop();
         scoreTimer.clear();
