@@ -1,6 +1,7 @@
 package com.dodgydive;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -25,6 +26,10 @@ public class SettingsScreen extends ScreenAdapter {
 
 	private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
 	private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
+
+	// Were going to use the built-in preferences class from LibGDX and store our preferences there
+	// methods to call are updateDiverCostume(), updateGameBackground(), musicVolume(), updateDifficulty()
+	private static final Preferences prefs = Gdx.app.getPreferences("Game_Settings");
 
 	private final DodgyDiveGame dodgyDiveGame;
 
@@ -141,6 +146,25 @@ public class SettingsScreen extends ScreenAdapter {
 		table.add(creditsButton).pad(16).align(Align.bottomRight);
 	}
 
+	public void updateDiverCostume(String costumeName) {
+		prefs.putString("diverCostume", costumeName);
+		prefs.flush();
+	}
+
+	public void updateGameBackground(String backgroundName) {
+		prefs.putString("gameBackground", backgroundName);
+		prefs.flush();
+	}
+
+	public void musicVolume(float volume) {
+		prefs.putFloat("musicVolume", volume);
+		prefs.flush();
+	}
+
+	public void updateDifficulty(float difficulty) {
+		prefs.putFloat("difficulty", difficulty);
+		prefs.flush();
+	}
 	/*
 	*
 	*   resize() - This function is used whenever the screen is resized and makes the viewport
