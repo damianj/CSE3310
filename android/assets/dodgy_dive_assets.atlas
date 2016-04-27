@@ -13,7 +13,7 @@ background
   index: -1
 
 dodgy_dive_assets3.png
-size: 2048,2048
+size: 1920,1080
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
@@ -54,6 +54,13 @@ debug_font
 diver
   rotate: false
   xy: 2, 2
+  size: 480, 58
+  orig: 480, 58
+  offset: 0, 0
+  index: -1
+diver_alt
+  rotate: false
+  xy: 481, 2
   size: 480, 58
   orig: 480, 58
   offset: 0, 0
