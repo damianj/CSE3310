@@ -230,14 +230,14 @@ public class GameScreen extends ScreenAdapter {
     *
     */
     private void draw() {
-
         // Setup the batch's projection and transform matrices to match the camera's
         batch.setProjectionMatrix(camera.projection);
         batch.setTransformMatrix(camera.view);
 
         // Begin drawing
         batch.begin();
-        batch.draw(background, 0, 0);
+
+        batch.draw(background, 0, 0, WORLD_WIDTH, WORLD_HEIGHT);
         diver.draw(batch);
 
         // Loop through the sharks arrayList and draw each shark

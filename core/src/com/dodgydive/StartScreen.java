@@ -21,8 +21,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
  */
 public class StartScreen extends ScreenAdapter {
 
-    private static final float WORLD_WIDTH = 1920;
-    private static final float WORLD_HEIGHT = 1080;
+    private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
+    private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
 
     private final DodgyDiveGame dodgyDiveGame;
 
@@ -60,6 +60,8 @@ public class StartScreen extends ScreenAdapter {
         // Load up the backgroundTexture and use it to make a background image for the UI.
         backgroundTexture = textureAtlas.findRegion("title_background");
         Image background = new Image(backgroundTexture);
+        background.setWidth(WORLD_WIDTH);
+        background.setHeight(WORLD_HEIGHT);
 
         // Load up the different states for the settings button (unpressed and pressed states) and
         // then set up a new image based button using these textures.
