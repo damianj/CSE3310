@@ -12,4 +12,5 @@ Our project involved making an obstacle dodging game. We ended up using the LibG
 - Craig Lautenslager
 - Neunzo Vincent
 
-###### Disclaimer: All files are provided as is and no help will be provided if you so choose to use them. This project is not meant to be a full game release, and thus may contain bugs, errors, etc.
+
+###### *Disclaimer: All files are provided as is and no help will be provided if you so choose to use them. This project is not meant to be a full game release, and thus may contain bugs, errors, etc.*
