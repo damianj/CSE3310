@@ -1,12 +1,12 @@
 
 dodgy_dive_assets.png
-size: 2048,2048
+size: 1920,1080
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 2, 2
+  xy: 0, 0
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
@@ -19,7 +19,7 @@ filter: Nearest,Nearest
 repeat: none
 background_radioactive
   rotate: false
-  xy: 2, 2
+  xy: 0, 0
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
