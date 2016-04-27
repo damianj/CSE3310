@@ -63,7 +63,7 @@ credits_screen
   offset: 0, 0
   index: -1
 
-dodgy_dive_assets2.png
+dodgy_dive_assets.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -115,6 +115,34 @@ explosion
   xy: 1028, 418
   size: 500, 500
   orig: 500, 500
+  offset: 0, 0
+  index: -1
+home
+  rotate: false
+  xy: 1918, 120
+  size: 129, 118
+  orig: 129, 118
+  offset: 0, 0
+  index: -1
+home_pressed
+  rotate: false
+  xy: 1918, 1
+  size: 129, 118
+  orig: 129, 118
+  offset: 0, 0
+  index: -1
+scoreboard
+  rotate: false
+  xy: 1931, 239
+  size: 116, 116
+  orig: 116, 116
+  offset: 0, 0
+  index: -1
+scoreboard_pressed
+  rotate: false
+  xy: 1931, 356
+  size: 116, 116
+  orig: 116, 116
   offset: 0, 0
   index: -1
 score_font
