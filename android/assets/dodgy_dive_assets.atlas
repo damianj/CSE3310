@@ -1,5 +1,4 @@
-
-dodgy_dive_assets.png
+background.png
 size: 1920,1080
 format: RGBA8888
 filter: Nearest,Nearest
@@ -12,12 +11,51 @@ background
   offset: 0, 0
   index: -1
 
-dodgy_dive_assets3.png
+background_radioactive.png
 size: 1920,1080
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background_radioactive
+  rotate: false
+  xy: 0, 0
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+settings_background.png
+size: 1920,1080
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+settings_background
+  rotate: false
+  xy: 0, 0
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+scores_background.png
+size: 1920,1080
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+scores_background
+  rotate: false
+  xy: 0, 0
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+credits_screen.png
+size: 1920,1080
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+credits_screen
   rotate: false
   xy: 0, 0
   size: 1920, 1080

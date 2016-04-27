@@ -47,6 +47,7 @@ public class GameScreen extends ScreenAdapter {
     private BitmapFont scoreFont;
     private BitmapFont debugFont;
     private GlyphLayout glyphLayout;
+    private int scoreFontSize = 58;
 
     private Viewport viewport;
     private Camera camera;
@@ -127,13 +128,12 @@ public class GameScreen extends ScreenAdapter {
         // Generate the score font on the fly from a .ttf file
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("score_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        parameter.size = 58;
+        parameter.size = scoreFontSize;
         parameter.kerning = false;
         parameter.borderStraight = true;
-        parameter.borderWidth = 4;
-        parameter.borderColor = Color.BLACK;
+        parameter.borderWidth = 1;
         scoreFont = generator.generateFont(parameter);
-        scoreFont.setColor(1, 1, 1, 0.667f); // Make our font slightly transparent so it doesn't obscure sharks during game-play
+        scoreFont.setColor(0, 0, 0, 0.70f); // Make our font slightly transparent so it doesn't obscure sharks during game-play
         generator.dispose(); // don't forget to dispose to avoid memory leaks!
         // Get the debug font for debug info from the atlas
         debugFont = dodgyDiveGame.getAssetManager().get("debug_font.fnt");
@@ -297,11 +297,11 @@ public class GameScreen extends ScreenAdapter {
     private void drawScore() {
 
         // Format the scoreString to have the most recent score
-        String scoreString = String.format(Locale.US, "Hi-Score: %d | Score: %d", scores[4], score);
+        String scoreString = String.format(Locale.US, "Hi-Score: %d | Score: %07d", scores[4], score);
         glyphLayout.setText(scoreFont, scoreString);
 
         // Begin drawing the score
-        scoreFont.draw(batch, scoreString, 32, 64);
+        scoreFont.draw(batch, scoreString, (WORLD_WIDTH/2.0f) - (scoreString.length()*scoreFontSize/3.6f), 50.0f);
     }
 
     /*
