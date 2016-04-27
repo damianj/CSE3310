@@ -21,7 +21,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 /**
  * Created by mwhar on 4/24/2016.
  */
-public class CreditsScreen extends ScreenAdapter {
+public class SettingsScreen extends ScreenAdapter {
 
 	private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
 	private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
@@ -32,15 +32,15 @@ public class CreditsScreen extends ScreenAdapter {
 	private Table table;
 
 	private TextureRegion backgroundTexture;
-	private TextureRegion settingsTexture;
-	private TextureRegion settingsPressedTexture;
+	private TextureRegion creditsTexture;
+	private TextureRegion creditsPressedTexture;
 	private TextureRegion homeTexture;
 	private TextureRegion homePressedTexture;
 	private TextureRegion scoreboardTexture;
 	private TextureRegion scoreboardPressedTexture;
 
 
-	public CreditsScreen(DodgyDiveGame dodgyDiveGame) {
+	public SettingsScreen(DodgyDiveGame dodgyDiveGame) {
 		this.dodgyDiveGame = dodgyDiveGame;
 	}
 
@@ -64,21 +64,21 @@ public class CreditsScreen extends ScreenAdapter {
 
 
 		// Load up the backgroundTexture and use it to make a background image for the UI.
-		backgroundTexture = textureAtlas.findRegion("credits_screen");
+		backgroundTexture = textureAtlas.findRegion("settings_background");
 		Image background = new Image(backgroundTexture);
 		background.setWidth(WORLD_WIDTH);
 		background.setHeight(WORLD_HEIGHT);
 
 		// Load up the different states for the settings button (unpressed and pressed states) and
 		// then set up a new image based button using these textures.
-		settingsTexture = textureAtlas.findRegion("settings");
-		settingsPressedTexture = textureAtlas.findRegion("settings_pressed");
-		ImageButton settingsButton = new ImageButton(new TextureRegionDrawable(settingsTexture),
-				new TextureRegionDrawable(settingsPressedTexture));
+		creditsTexture = textureAtlas.findRegion("settings");
+		creditsPressedTexture = textureAtlas.findRegion("settings_pressed");
+		ImageButton creditsButton = new ImageButton(new TextureRegionDrawable(creditsTexture),
+				new TextureRegionDrawable(creditsPressedTexture));
 
 		// Add a gesture listener to the settings button so we can detect when the user taps the
 		// button.
-		settingsButton.addListener(new ActorGestureListener() {
+		creditsButton.addListener(new ActorGestureListener() {
 			@Override
 			public void tap(InputEvent event, float x, float y, int count, int button) {
 
@@ -86,7 +86,7 @@ public class CreditsScreen extends ScreenAdapter {
 
 				// When the button has been tapped change to the GameScreen and dispose of the
 				// previous screen
-				dodgyDiveGame.setScreen(new SettingsScreen(dodgyDiveGame));
+				dodgyDiveGame.setScreen(new CreditsScreen(dodgyDiveGame));
 				dispose();
 			}
 		});
@@ -136,9 +136,9 @@ public class CreditsScreen extends ScreenAdapter {
 		// as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
 		// and set it to align itself with the top right of the screen.
 		scoreboardButton.padLeft(12);
-		table.add(settingsButton).expand().pad(16).align(Align.bottomRight);
-		table.add(scoreboardButton).pad(16).align(Align.bottomRight);
+		table.add(scoreboardButton).expand().pad(16).align(Align.bottomRight);
 		table.add(homeButton).pad(16).align(Align.bottomRight);
+		table.add(creditsButton).pad(16).align(Align.bottomRight);
 	}
 
 	/*

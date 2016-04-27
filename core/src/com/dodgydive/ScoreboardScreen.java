@@ -109,7 +109,7 @@ public class ScoreboardScreen extends ScreenAdapter {
 
 				// When the button has been tapped change to the GameScreen and dispose of the
 				// previous screen
-				dodgyDiveGame.setScreen(new GameScreen(dodgyDiveGame));
+				dodgyDiveGame.setScreen(new SettingsScreen(dodgyDiveGame));
 				dispose();
 			}
 		});
