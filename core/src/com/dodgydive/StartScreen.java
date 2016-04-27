@@ -93,6 +93,18 @@ public class StartScreen extends ScreenAdapter {
         ImageButton scoreboardButton = new ImageButton(new TextureRegionDrawable(scoreboardTexture),
                 new TextureRegionDrawable(scoreboardPressedTexture));
 
+        scoreboardButton.addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+
+                super.tap(event, x, y, count, button);
+
+                // When the button has been tapped change to the GameScreen and dispose of the
+                // previous screen
+                dodgyDiveGame.setScreen(new ScoreboardScreen(dodgyDiveGame));
+                dispose();
+            }
+        });
 
         // Load up the different states for the credits button and set up a new image button for it.
         creditsTexture = textureAtlas.findRegion("credits");
@@ -100,19 +112,31 @@ public class StartScreen extends ScreenAdapter {
         ImageButton creditsButton = new ImageButton(new TextureRegionDrawable(creditsTexture),
                 new TextureRegionDrawable(creditsPressedTexture));
 
+        creditsButton.addListener(new ActorGestureListener() {
+            @Override
+            public void tap(InputEvent event, float x, float y, int count, int button) {
+
+                super.tap(event, x, y, count, button);
+
+                // When the button has been tapped change to the GameScreen and dispose of the
+                // previous screen
+                dodgyDiveGame.setScreen(new CreditsScreen(dodgyDiveGame));
+                dispose();
+            }
+        });
         // Here we add UI elements to the stage container and table container
         stage.addActor(background);
         stage.addActor(table);
 
         scoreboardButton.padLeft(12); // easy fix to make sure our scoreboard button has the same space
                                       // as the rest since it's 12 pixels smaller (width) than the other buttons
-        
+
         // Using expand() we make the newly add UI element and table cell fill up as much space
         // as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
         // and set it to align itself with the top right of the screen.
-        table.add(settingsButton).expand().pad(16).align(Align.topRight);
-        table.add(scoreboardButton).pad(16).align(Align.topRight);
-        table.add(creditsButton).pad(16).align(Align.topRight);
+        table.add(settingsButton).expand().pad(16).align(Align.bottomRight);
+        table.add(scoreboardButton).pad(16).align(Align.bottomRight);
+        table.add(creditsButton).pad(16).align(Align.bottomRight);
 
         // Add a gesture listener to the background image so we can detect when the user taps the
         // background and not the buttons.

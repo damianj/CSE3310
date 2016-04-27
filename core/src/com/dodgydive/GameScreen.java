@@ -129,7 +129,7 @@ public class GameScreen extends ScreenAdapter {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("score_font.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
         parameter.size = scoreFontSize;
-        parameter.kerning = false;
+        parameter.kerning = true;
         parameter.borderStraight = true;
         parameter.borderWidth = 1;
         scoreFont = generator.generateFont(parameter);
@@ -411,9 +411,15 @@ public class GameScreen extends ScreenAdapter {
         int[] file_scores = new int[5];
 
         if(scores_txt.exists()) {
-            String[] score_txt_arr = scores_txt.readString().split("\\n");
+            String[] score_txt_arr = scores_txt.readString().split(",");
             for(int i = 0; i < 5; i++) {
-                file_scores[i] = Integer.parseInt(score_txt_arr[i]);
+                if(i < score_txt_arr.length) {
+                    String score = (score_txt_arr[i] == "" ? "0" : score_txt_arr[i]);
+                    file_scores[i] = Integer.parseInt(score);
+                }
+                else {
+                    file_scores[i] = 0;
+                }
             }
 
             return file_scores;
@@ -445,10 +451,10 @@ public class GameScreen extends ScreenAdapter {
 
         for(int i = 0; i < 5; i++) {
             if(i == 0) {
-                scores_txt.writeString(scores[i] + "\n", false);
+                scores_txt.writeString(scores[i] + ",", false);
             }
             else {
-                scores_txt.writeString(scores[i] + "\n", true);
+                scores_txt.writeString(scores[i] + ",", true);
             }
         }
         return scores;
