@@ -1,5 +1,7 @@
 package com.dodgydive;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -12,12 +14,13 @@ import com.badlogic.gdx.utils.Array;
  * Created by mwhar on 4/24/2016.
  */
 public class Shark {
+    private static final Preferences PREFS = Gdx.app.getPreferences("Game_Settings");
     private static final float COLLISION_WIDTH = 160f;
     private static final float COLLISION_HEIGHT = 60f;
     private static final int TILE_WIDTH = 207;
     private static final int TILE_HEIGHT = 133;
     private static final float FRAME_DURATION = 0.15f;
-    private static final float SWIM_SPEED = 108f;
+    private static final float SWIM_SPEED = PREFS.contains("difficulty") ? (float) Math.ceil(PREFS.getInteger("difficulty") + 108f) : 108f;
 
     private final Rectangle collisionRect;
     private final Animation swimAnimation;

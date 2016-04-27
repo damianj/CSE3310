@@ -34,7 +34,7 @@ public class GameScreen extends ScreenAdapter {
 
     private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
     private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
-    private static final Preferences prefs = Gdx.app.getPreferences("Game_Settings");
+    private static final Preferences PREFS = Gdx.app.getPreferences("Game_Settings");
 
     private final DodgyDiveGame dodgyDiveGame;
 
@@ -44,7 +44,7 @@ public class GameScreen extends ScreenAdapter {
     private int[] scores;
 
     private Music gameMusic;
-    private float musicVolume = prefs.contains("musicVolume") ? prefs.getFloat("musicVolume") : 0.5f;
+    private float musicVolume = PREFS.contains("musicVolume") ? PREFS.getFloat("musicVolume") : 0.5f;
 
     private BitmapFont scoreFont;
     private BitmapFont debugFont;
@@ -57,11 +57,11 @@ public class GameScreen extends ScreenAdapter {
     private ShapeRenderer shapeRenderer;
 
     private TextureRegion background;
-    private String background_name = prefs.contains("gameBackground") ? prefs.getString("gameBackground") : "background"; // background is default, background_radioactive is the other one
+    private String background_name = PREFS.contains("gameBackground") ? PREFS.getString("gameBackground") : "background"; // background is default, background_radioactive is the other one
 
     private TextureRegion diverTexture;
     private Diver diver;
-    private String diver_costume = prefs.contains("diverCostume") ? prefs.getString("diverCostume") : "diver"; // diver is default, diver_alt is the other "costume"
+    private String diver_costume = PREFS.contains("diverCostume") ? PREFS.getString("diverCostume") : "diver"; // diver is default, diver_alt is the other "costume"
 
     private TextureRegion sharkTexture;
     private Array<Shark> sharks = new Array<Shark>();
@@ -69,7 +69,7 @@ public class GameScreen extends ScreenAdapter {
     private Timer scoreTimer = new Timer();
     private int score = 0;
 
-    private int sharksOnScreen = prefs.contains("difficulty") ? (int) Math.ceil(prefs.getInteger("difficulty")*12) : 8;
+    private int sharksOnScreen = 10;
     private int spaceBetweenSharks = WORLD_WIDTH/(sharksOnScreen);
 
     public GameScreen(DodgyDiveGame dodgyDiveGame) {

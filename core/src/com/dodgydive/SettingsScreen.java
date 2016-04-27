@@ -29,7 +29,7 @@ public class SettingsScreen extends ScreenAdapter {
 
 	// Were going to use the built-in preferences class from LibGDX and store our preferences there
 	// methods to call are updateDiverCostume(), updateGameBackground(), musicVolume(), updateDifficulty()
-	private static final Preferences prefs = Gdx.app.getPreferences("Game_Settings");
+	private static final Preferences PREFS = Gdx.app.getPreferences("Game_Settings");
 
 	private final DodgyDiveGame dodgyDiveGame;
 
@@ -147,23 +147,23 @@ public class SettingsScreen extends ScreenAdapter {
 	}
 
 	public void updateDiverCostume(String costumeName) {
-		prefs.putString("diverCostume", costumeName);
-		prefs.flush();
+		PREFS.putString("diverCostume", costumeName);
+		PREFS.flush();
 	}
 
 	public void updateGameBackground(String backgroundName) {
-		prefs.putString("gameBackground", backgroundName);
-		prefs.flush();
+		PREFS.putString("gameBackground", backgroundName);
+		PREFS.flush();
 	}
 
 	public void musicVolume(float volume) {
-		prefs.putFloat("musicVolume", volume);
-		prefs.flush();
+		PREFS.putFloat("musicVolume", volume);
+		PREFS.flush();
 	}
 
 	public void updateDifficulty(float difficulty) {
-		prefs.putFloat("difficulty", difficulty);
-		prefs.flush();
+		PREFS.putFloat("difficulty", difficulty);
+		PREFS.flush();
 	}
 	/*
 	*
