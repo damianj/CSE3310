@@ -196,9 +196,9 @@ slider
   index: -1
 slider_knob
   rotate: false
-  xy: 1987, 473
-  size: 60, 109
-  orig: 60, 109
+  xy: 1952, 476
+  size: 86, 109
+  orig: 86, 109
   offset: 0, 0
   index: -1
 title_background

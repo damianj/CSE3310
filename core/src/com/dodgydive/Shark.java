@@ -10,6 +10,8 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.Random;
+
 /**
  * Created by mwhar on 4/24/2016.
  */
@@ -24,6 +26,8 @@ public class Shark {
 
     private final Rectangle collisionRect;
     private final Animation swimAnimation;
+
+    private static float prevRand = 0.0f;
 
     private float x;
     private float y;
@@ -48,11 +52,19 @@ public class Shark {
     *   update() - This function is used to update position and animation frame of the shark.
     *
     */
-    public void update(float delta) {
-
+    public void update(float delta, float rand) {
+        // Create a bias so the sharks tend to move in a general y-direction instead of being completely random
+        if(prevRand <= 0 && rand > 0) {
+            rand *= ((new Random().nextInt(10) - 7) <= 0) ? -1 : 1;
+        }
+        else if(prevRand > 0 && rand <= 0) {
+            rand *= ((new Random().nextInt(10) - 3) >= 0) ? -1 : 1;
+        }
+        prevRand = rand;
         // Every frame move the shark to the left
         animationTimer += delta;
-        setPosition(x - (SWIM_SPEED * delta), y);
+
+        setPosition(x - (SWIM_SPEED * delta), y + rand);
     }
 
     public float getX() {

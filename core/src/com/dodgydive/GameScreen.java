@@ -25,6 +25,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Random;
 
 
 /**
@@ -41,6 +42,7 @@ public class GameScreen extends ScreenAdapter {
     private boolean debugMode;
 
     private Music gameMusic;
+    private Music crunchSound = Gdx.audio.newMusic(Gdx.files.internal("crunch_sound.mp3"));
     private float musicVolume = PREFS.contains("musicVolume") ? PREFS.getFloat("musicVolume") : 0.5f;
 
     private BitmapFont scoreFont;
@@ -68,6 +70,7 @@ public class GameScreen extends ScreenAdapter {
 
     private int sharksOnScreen = 10;
     private int spaceBetweenSharks = WORLD_WIDTH/(sharksOnScreen);
+    private boolean killedByShark = false;
 
     public GameScreen(DodgyDiveGame dodgyDiveGame) {
 
@@ -163,6 +166,8 @@ public class GameScreen extends ScreenAdapter {
         }, 1f, 1f);
         scoreTimer.start();
 
+        crunchSound.setVolume(musicVolume);
+        crunchSound.setPosition(0.4f);
         gameMusic.setVolume(musicVolume); // sets the volume to half the maximum volume
         gameMusic.play();
         gameMusic.setLooping(true);
@@ -215,8 +220,13 @@ public class GameScreen extends ScreenAdapter {
     */
     private void endGame() {
         gameMusic.stop();
-        updateScores(score);
+
+        if(killedByShark) {
+            crunchSound.play();
+        }
+
         scoreTimer.stop();
+        updateScores(score);
         scoreTimer.clear();
         dodgyDiveGame.setScreen(new StartScreen(dodgyDiveGame));
         dispose();
@@ -326,6 +336,7 @@ public class GameScreen extends ScreenAdapter {
         {
             if(shark.hasCollidedWithDiver(diver))
             {
+                killedByShark = true;
                 endGame();
             }
         }
@@ -380,7 +391,7 @@ public class GameScreen extends ScreenAdapter {
 
         // Update the positions of every shark on the screen
         for (Shark shark : sharks) {
-            shark.update(delta);
+            shark.update(delta, new Random().nextFloat() * (new Random().nextInt(10) - 5));
         }
 
         // If there are sharks on the screen
