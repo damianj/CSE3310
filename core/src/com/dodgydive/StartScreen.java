@@ -134,9 +134,9 @@ public class StartScreen extends ScreenAdapter {
         // Using expand() we make the newly add UI element and table cell fill up as much space
         // as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
         // and set it to align itself with the top right of the screen.
-        table.add(settingsButton).size(90, 90).expand().pad(16).align(Align.bottomRight);
-        table.add(scoreboardButton).size(90, 90).pad(16).align(Align.bottomRight);
-        table.add(creditsButton).size(90, 90).pad(16).align(Align.bottomRight);
+        table.add(settingsButton).size(75, 75).expand().pad(16).align(Align.topRight);
+        table.add(scoreboardButton).size(75, 75).pad(16).align(Align.topRight);
+        table.add(creditsButton).size(75, 75).pad(16).align(Align.topRight);
 
         // Add a gesture listener to the background image so we can detect when the user taps the
         // background and not the buttons.

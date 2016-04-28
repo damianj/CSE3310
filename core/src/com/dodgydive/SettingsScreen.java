@@ -172,9 +172,9 @@ public class SettingsScreen extends ScreenAdapter {
 		// as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
 		// and set it to align itself with the top right of the screen.
 		scoreboardButton.padLeft(12);
-		table.add(scoreboardButton).size(90, 90).pad(16).align(Align.bottomLeft);
-		table.add(homeButton).size(90, 90).pad(16).align(Align.bottomLeft);
-		table.add(creditsButton).size(90, 90).expand().pad(16).align(Align.bottomLeft);
+		table.add(scoreboardButton).size(75, 75).expand().pad(16).align(Align.topRight);
+		table.add(homeButton).size(75, 75).pad(16).align(Align.topRight);
+		table.add(creditsButton).size(75, 75).pad(16).align(Align.topRight);
 
 		settingsTable.padLeft(0.475f * WORLD_WIDTH);
 		settingsTable.padTop((0.270f/(SCALING > 1 ? 1.1f : SCALING)) * WORLD_HEIGHT); // Hack to make it look okay on both the Nexus 5X and 6P...

@@ -375,7 +375,7 @@ public class GameScreen extends ScreenAdapter {
 
         // Calculate and set the new shark's position then add it to the list of sharks
         float x = WORLD_WIDTH;
-        float y = MathUtils.random(WORLD_HEIGHT - newShark.getHeight());
+        float y = new Random().nextFloat() * (WORLD_HEIGHT - newShark.getHeight());
         newShark.setPosition(x, y);
         sharks.add(newShark);
     }

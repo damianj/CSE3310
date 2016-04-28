@@ -136,9 +136,9 @@ public class CreditsScreen extends ScreenAdapter {
 		// as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
 		// and set it to align itself with the top right of the screen.
 		scoreboardButton.padLeft(12);
-		table.add(settingsButton).size(90, 90).expand().pad(16).align(Align.bottomRight);
-		table.add(scoreboardButton).size(90, 90).pad(16).align(Align.bottomRight);
-		table.add(homeButton).size(90, 90).pad(16).align(Align.bottomRight);
+		table.add(settingsButton).size(75, 75).expand().pad(16).align(Align.topRight);
+		table.add(scoreboardButton).size(75, 75).pad(16).align(Align.topRight);
+		table.add(homeButton).size(75, 75).pad(16).align(Align.topRight);
 	}
 
 	/*
