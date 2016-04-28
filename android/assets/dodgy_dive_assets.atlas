@@ -71,16 +71,16 @@ filter: Nearest,Nearest
 repeat: none
 checkbox
   rotate: false
-  xy: 1900, 722
+  xy: 1771, 587
   size: 134, 134
   orig: 134, 134
   offset: 0, 0
   index: -1
 checkbox_checked
   rotate: false
-  xy: 1900, 583
-  size: 147, 143
-  orig: 147, 143
+  xy: 1914, 587
+  size: 134, 134
+  orig: 134, 134
   offset: 0, 0
   index: -1
 credits

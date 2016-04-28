@@ -1,6 +1,7 @@
 package com.dodgydive;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -31,12 +32,13 @@ public class ScoreboardScreen extends ScreenAdapter {
 
 	private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
 	private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
+	private static final float SCALING = 1440f/Gdx.graphics.getHeight();
+	private static final Preferences PREFS = Gdx.app.getPreferences("Game_Settings");
 
 	private final DodgyDiveGame dodgyDiveGame;
 
 	private Stage stage;
 	private Table table, scoresTable;
-
 
 	private TextureRegion backgroundTexture;
 	private TextureRegion settingsTexture;
@@ -49,8 +51,6 @@ public class ScoreboardScreen extends ScreenAdapter {
 	private BitmapFont scoreFont;
 	private int scoreFontSize = 80;
 
-	private FileHandle scoresFileHandle;
-	private int[] scores;
 
 	public ScoreboardScreen(DodgyDiveGame dodgyDiveGame) {
 		this.dodgyDiveGame = dodgyDiveGame;
@@ -66,6 +66,7 @@ public class ScoreboardScreen extends ScreenAdapter {
 		stage = new Stage(new StretchViewport(WORLD_WIDTH, WORLD_HEIGHT));
 		Gdx.input.setInputProcessor(stage);
 
+		loadScores();
 		// Create a new table that will be set to fill up it's parent container(the stage).
 		// A table is just like an html/excel table that holds UI elements like buttons.
 		table = new Table();
@@ -156,10 +157,6 @@ public class ScoreboardScreen extends ScreenAdapter {
 		stage.addActor(table);
 		stage.addActor(scoresTable);
 
-
-
-
-
 		// Using expand() we make the newly add UI element and table cell fill up as much space
 		// as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
 		// and set it to align itself with the top right of the screen.
@@ -167,16 +164,12 @@ public class ScoreboardScreen extends ScreenAdapter {
 		table.add(homeButton).size(90, 90).pad(16).align(Align.bottomRight);
 		table.add(creditsButton).size(90, 90).pad(16).align(Align.bottomRight);
 
-
-		scoresFileHandle = Gdx.files.local("scores.txt");
-		scores = loadScores(scoresFileHandle);
-
-		scoresTable.center().top().padTop(248);
+		scoresTable.center().top().padTop((0.273f/(SCALING > 1 ? 1.05f : SCALING)) * WORLD_HEIGHT);
 
 		Array<TextButton> scoreButtons = new Array<TextButton>();
-		for(int i = 4; i >= 0; i--) {
-			scoreButtons.add(new TextButton(String.format(Locale.US, "%010d",scores[i]), new TextButton.TextButtonStyle(null, null, null, scoreFont)));
-			scoresTable.add(scoreButtons.get(4-i)).pad(38).row();
+		for(int i = 0; i < 5; i++) {
+			scoreButtons.add(new TextButton(String.format(Locale.US, "%010d",PREFS.getInteger("hS" + (i + 1))), new TextButton.TextButtonStyle(null, null, null, scoreFont)));
+			scoresTable.add(scoreButtons.get(i)).pad(i > 0 ? (.046f/(SCALING > 1 ? 1.29f : SCALING)) * WORLD_HEIGHT : 0).padBottom((.046f/(SCALING > 1 ? 1.29f : SCALING)) * WORLD_HEIGHT).row();
 
 
 			// Begin drawing the score
@@ -237,32 +230,15 @@ public class ScoreboardScreen extends ScreenAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 
-	public int[] loadScores(FileHandle scores_txt) {
-		int[] file_scores = new int[5];
-
-		if(scores_txt.exists()) {
-			String[] score_txt_arr = scores_txt.readString().split(",");
-			for(int i = 0; i < 5; i++) {
-				if(i < score_txt_arr.length) {
-					String score = (score_txt_arr[i] == "" ? "0" : score_txt_arr[i]);
-					file_scores[i] = Integer.parseInt(score);
-				}
-				else {
-					file_scores[i] = 0;
-				}
-			}
-
-			return file_scores;
-		}
-		else {
-			try {
-				scores_txt.file().createNewFile();
-			}
-			catch(IOException e) {
-				// System.out.printf("Exception: " + e.toString());
-			}
-			return new int[] {0, 0, 0, 0, 0};
+	public void loadScores() {
+		if(!PREFS.contains("hiScoresSet") && !PREFS.getBoolean("hiScoresSet")) {
+			PREFS.putBoolean("hiScoresSet", true);
+			PREFS.putInteger("hS1", 0);
+			PREFS.putInteger("hS2", 0);
+			PREFS.putInteger("hS3", 0);
+			PREFS.putInteger("hS4", 0);
+			PREFS.putInteger("hS5", 0);
+			PREFS.flush();
 		}
 	}
-
 }

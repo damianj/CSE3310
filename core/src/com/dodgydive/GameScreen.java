@@ -40,9 +40,6 @@ public class GameScreen extends ScreenAdapter {
 
     private boolean debugMode;
 
-    private FileHandle scoresFileHandle;
-    private int[] scores;
-
     private Music gameMusic;
     private float musicVolume = PREFS.contains("musicVolume") ? PREFS.getFloat("musicVolume") : 0.5f;
 
@@ -108,8 +105,7 @@ public class GameScreen extends ScreenAdapter {
 
         super.show();
 
-        scoresFileHandle = Gdx.files.local("scores.txt");
-        scores = loadScores(scoresFileHandle);
+        loadScores();
 
         // Set up the camera to be orthographic and put it at the center of the screen.
         // The camera allows us to view a portion of the game world.
@@ -219,7 +215,7 @@ public class GameScreen extends ScreenAdapter {
     */
     private void endGame() {
         gameMusic.stop();
-        updateScores(scoresFileHandle, scores, score);
+        updateScores(score);
         scoreTimer.stop();
         scoreTimer.clear();
         dodgyDiveGame.setScreen(new StartScreen(dodgyDiveGame));
@@ -299,7 +295,7 @@ public class GameScreen extends ScreenAdapter {
     private void drawScore() {
 
         // Format the scoreString to have the most recent score
-        String scoreString = String.format(Locale.US, "Hi-Score: %d | Score: %07d", scores[4], score);
+        String scoreString = String.format(Locale.US, "Hi-Score: %d | Score: %07d", PREFS.getInteger("hS1"), score);
         glyphLayout.setText(scoreFont, scoreString);
 
         // Begin drawing the score
@@ -409,56 +405,29 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    public int[] loadScores(FileHandle scores_txt) {
-        int[] file_scores = new int[5];
-
-        if(scores_txt.exists()) {
-            String[] score_txt_arr = scores_txt.readString().split(",");
-            for(int i = 0; i < 5; i++) {
-                if(i < score_txt_arr.length) {
-                    String score = (score_txt_arr[i] == "" ? "0" : score_txt_arr[i]);
-                    file_scores[i] = Integer.parseInt(score);
-                }
-                else {
-                    file_scores[i] = 0;
-                }
-            }
-
-            return file_scores;
-        }
-        else {
-            try {
-                scores_txt.file().createNewFile();
-            }
-            catch(IOException e) {
-                // System.out.printf("Exception: " + e.toString());
-            }
-            return new int[] {0, 0, 0, 0, 0};
+    public void loadScores() {
+        if(!PREFS.contains("hiScoresSet") && !PREFS.getBoolean("hiScoresSet")) {
+            PREFS.putBoolean("hiScoresSet", true);
+            PREFS.putInteger("hS1", 0);
+            PREFS.putInteger("hS2", 0);
+            PREFS.putInteger("hS3", 0);
+            PREFS.putInteger("hS4", 0);
+            PREFS.putInteger("hS5", 0);
+            PREFS.flush();
         }
     }
 
-    public int[] updateScores(FileHandle scores_txt, int[] scores, int newScore) {
-        int index = -1, temp, store = newScore;
+    public void updateScores(int newScore) {
+        int temp, store = newScore;
 
-
-        for(int i = 0; i < 5; i++) {
-            index = (scores[i] < newScore) ? i : index;
-        }
-
-        for(int i = index; i > -1; i--) {
-            temp = scores[i];
-            scores[i] = store;
-            store = temp;
-        }
-
-        for(int i = 0; i < 5; i++) {
-            if(i == 0) {
-                scores_txt.writeString(scores[i] + ",", false);
-            }
-            else {
-                scores_txt.writeString(scores[i] + ",", true);
+        for(int i = 0; i <= 5; i++) {
+            if(store > PREFS.getInteger("hS" + (i+1))) {
+                temp = PREFS.getInteger("hS" + (i + 1));
+                PREFS.putInteger("hS" + (i + 1), store);
+                store = temp;
             }
         }
-        return scores;
+
+        PREFS.flush();
     }
 }

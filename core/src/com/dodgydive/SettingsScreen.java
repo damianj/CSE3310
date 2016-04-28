@@ -32,6 +32,7 @@ public class SettingsScreen extends ScreenAdapter {
 
 	private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
 	private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
+	private static final float SCALING = 1440f/Gdx.graphics.getHeight();
 
 	// Were going to use the built-in preferences class from LibGDX and store our preferences there
 	// methods to call are updateDiverCostume(), updateGameBackground(), musicVolume(), updateDifficulty()
@@ -175,11 +176,11 @@ public class SettingsScreen extends ScreenAdapter {
 		table.add(homeButton).size(90, 90).pad(16).align(Align.bottomLeft);
 		table.add(creditsButton).size(90, 90).expand().pad(16).align(Align.bottomLeft);
 
-		settingsTable.padLeft(WORLD_WIDTH/2);
-		settingsTable.padTop(239);
+		settingsTable.padLeft(0.475f * WORLD_WIDTH);
+		settingsTable.padTop((0.270f/(SCALING > 1 ? 1.1f : SCALING)) * WORLD_HEIGHT); // Hack to make it look okay on both the Nexus 5X and 6P...
 
 		final CheckBox backgroundCheckbox = new CheckBox(null, new CheckBox.CheckBoxStyle(checkbox, checkboxChecked, customFont, null));
-		settingsTable.add(backgroundCheckbox).size(147, 143).pad(33).row();
+		settingsTable.add(backgroundCheckbox).pad(0).padBottom((0.0455f/SCALING) * WORLD_HEIGHT).row();
 		backgroundCheckbox.setChecked(PREFS.contains("gameBackground") ? PREFS.getString("gameBackground").equalsIgnoreCase("background_radioactive") : false);
 		backgroundCheckbox.addListener(new ActorGestureListener() {
 			@Override
@@ -195,7 +196,7 @@ public class SettingsScreen extends ScreenAdapter {
 		});
 
 		final CheckBox costumeCheckbox = new CheckBox(null, new CheckBox.CheckBoxStyle(checkbox, checkboxChecked, customFont, null));
-		settingsTable.add(costumeCheckbox).size(147, 143).pad(33).row();
+		settingsTable.add(costumeCheckbox).size(147, 147).pad((0.0455f/SCALING) * WORLD_HEIGHT).padBottom((0.043f/SCALING) * WORLD_HEIGHT).row();
 		costumeCheckbox.setChecked(PREFS.contains("diverCostume") ? PREFS.getString("diverCostume").equalsIgnoreCase("diver_alt") : false);
 		costumeCheckbox.addListener(new ActorGestureListener() {
 			@Override
@@ -212,7 +213,7 @@ public class SettingsScreen extends ScreenAdapter {
 
 		final Slider musicSlider = new Slider(0, 1, 0.1f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
 		musicSlider.setValue(PREFS.contains("musicVolume") ? PREFS.getFloat("musicVolume") : 0.5f);
-		settingsTable.add(musicSlider).width((WORLD_WIDTH/2) - 100).pad(33).row();
+		settingsTable.add(musicSlider).width((WORLD_WIDTH/2) - 100).pad((0.0455f/SCALING) * WORLD_HEIGHT).padBottom((0.05f/SCALING) * WORLD_HEIGHT).row();
         musicSlider.addListener(new DragListener() {
 	        @Override
 	        public void dragStop(InputEvent event, float x, float y, int pointer) {
@@ -221,9 +222,9 @@ public class SettingsScreen extends ScreenAdapter {
 	        }
         });
 
-		final Slider diffSlider = new Slider(100, 250, 10f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
+		final Slider diffSlider = new Slider(100, 250, 5f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
 		diffSlider.setValue(PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f);
-		settingsTable.add(diffSlider).width((WORLD_WIDTH/2) - 100).pad(33).padTop(42).row();
+		settingsTable.add(diffSlider).width((WORLD_WIDTH/2) - 100).pad((0.0455f/SCALING) * WORLD_HEIGHT).row();
 		diffSlider.addListener(new DragListener() {
 			@Override
 			public void dragStop(InputEvent event, float x, float y, int pointer) {
