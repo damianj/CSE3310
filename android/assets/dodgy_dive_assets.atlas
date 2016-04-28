@@ -1,70 +1,69 @@
-
-dodgy_dive_assets.png
-size: 2048,2048
+background.png
+size: 1920,1080
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background
   rotate: false
-  xy: 2, 2
-  size: 1921, 1081
-  orig: 1921, 1081
+  xy: 0, 0
+  size: 1920, 1080
+  orig: 1920, 1080
   offset: 0, 0
   index: -1
 
-dodgy_dive_assets2.png
-size: 2048,2048
+background_radioactive.png
+size: 1920,1080
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 background_radioactive
   rotate: false
-  xy: 2, 2
-  size: 1921, 1081
-  orig: 1921, 1081
-  offset: 0, 0
-  index: -1
-
-dodgy_dive_assets3.png
-size: 2048,2048
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-credits_screen
-  rotate: false
-  xy: 2, 2
+  xy: 0, 0
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
 
-dodgy_dive_assets4.png
-size: 2048,2048
-format: RGBA8888
-filter: Nearest,Nearest
-repeat: none
-scores_background
-  rotate: false
-  xy: 2, 2
-  size: 1920, 1080
-  orig: 1920, 1080
-  offset: 0, 0
-  index: -1
-
-dodgy_dive_assets5.png
-size: 2048,2048
+settings_background.png
+size: 1920,1080
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 settings_background
   rotate: false
-  xy: 2, 2
+  xy: 0, 0
   size: 1920, 1080
   orig: 1920, 1080
   offset: 0, 0
   index: -1
 
-dodgy_dive_assets6.png
+scores_background.png
+size: 1920,1080
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+scores_background
+  rotate: false
+  xy: 0, 0
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+credits_screen.png
+size: 1920,1080
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+credits_screen
+  rotate: false
+  xy: 0, 0
+  size: 1920, 1080
+  orig: 1920, 1080
+  offset: 0, 0
+  index: -1
+
+dodgy_dive_assets.png
 size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
@@ -106,23 +105,58 @@ debug_font
   index: -1
 diver
   rotate: false
-  xy: 1028, 860
+  xy: 2, 2
   size: 480, 58
   orig: 480, 58
   offset: 0, 0
   index: -1
 diver_alt
   rotate: false
-  xy: 2, 2
+  xy: 481, 2
   size: 480, 58
   orig: 480, 58
   offset: 0, 0
   index: -1
 diver_dead
   rotate: false
-  xy: 1028, 800
+  xy: 1530, 860
   size: 480, 58
   orig: 480, 58
+  offset: 0, 0
+  index: -1
+explosion
+  rotate: false
+  xy: 1028, 418
+  size: 500, 500
+  orig: 500, 500
+  offset: 0, 0
+  index: -1
+home
+  rotate: false
+  xy: 1918, 120
+  size: 129, 118
+  orig: 129, 118
+  offset: 0, 0
+  index: -1
+home_pressed
+  rotate: false
+  xy: 1918, 1
+  size: 129, 118
+  orig: 129, 118
+  offset: 0, 0
+  index: -1
+scoreboard
+  rotate: false
+  xy: 1931, 239
+  size: 116, 116
+  orig: 116, 116
+  offset: 0, 0
+  index: -1
+scoreboard_pressed
+  rotate: false
+  xy: 1931, 356
+  size: 116, 116
+  orig: 116, 116
   offset: 0, 0
   index: -1
 score_font
@@ -141,7 +175,7 @@ settings
   index: -1
 settings_pressed
   rotate: false
-  xy: 1028, 670
+  xy: 1530, 730
   size: 128, 128
   orig: 128, 128
   offset: 0, 0
