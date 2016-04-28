@@ -90,8 +90,8 @@ public class StartScreen extends ScreenAdapter {
 
         scoreboardTexture = textureAtlas.findRegion("scoreboard");
         scoreboardPressedTexture = textureAtlas.findRegion("scoreboard_pressed");
-        ImageButton scoreboardButton = new ImageButton(new TextureRegionDrawable(scoreboardTexture),
-                new TextureRegionDrawable(scoreboardPressedTexture));
+        //ImageButton scoreboardButton = new ImageButton(new TextureRegionDrawable(scoreboardTexture),
+                //new TextureRegionDrawable(scoreboardPressedTexture));
 
         scoreboardButton.addListener(new ActorGestureListener() {
             @Override
