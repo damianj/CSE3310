@@ -182,56 +182,82 @@ public class SettingsScreen extends ScreenAdapter {
 		final CheckBox backgroundCheckbox = new CheckBox(null, new CheckBox.CheckBoxStyle(checkbox, checkboxChecked, customFont, null));
 		settingsTable.add(backgroundCheckbox).pad(0).padBottom((0.0455f/SCALING) * WORLD_HEIGHT).row();
 		backgroundCheckbox.setChecked(PREFS.contains("gameBackground") ? PREFS.getString("gameBackground").equalsIgnoreCase("background_radioactive") : false);
-		backgroundCheckbox.addListener(new ActorGestureListener() {
-			@Override
-			public void tap(InputEvent event, float x, float y, int count, int button) {
-				super.tap(event, x, y, count, button);
-				if(backgroundCheckbox.isChecked()) {
-					updateGameBackground("background_radioactive");
-				}
-				else{
-					updateGameBackground("background");
+		backgroundCheckbox.addListener(
+			new ActorGestureListener() {
+				@Override
+				public void tap(InputEvent event, float x, float y, int count, int button) {
+					super.tap(event, x, y, count, button);
+					if(backgroundCheckbox.isChecked()) {
+						updateGameBackground("background_radioactive");
+					}
+					else{
+						updateGameBackground("background");
+					}
 				}
 			}
-		});
+		);
 
 		final CheckBox costumeCheckbox = new CheckBox(null, new CheckBox.CheckBoxStyle(checkbox, checkboxChecked, customFont, null));
 		settingsTable.add(costumeCheckbox).size(147, 147).pad((0.0455f/SCALING) * WORLD_HEIGHT).padBottom((0.043f/SCALING) * WORLD_HEIGHT).row();
 		costumeCheckbox.setChecked(PREFS.contains("diverCostume") ? PREFS.getString("diverCostume").equalsIgnoreCase("diver_alt") : false);
-		costumeCheckbox.addListener(new ActorGestureListener() {
-			@Override
-			public void tap(InputEvent event, float x, float y, int count, int button) {
-				super.tap(event, x, y, count, button);
-				if(costumeCheckbox.isChecked()) {
-					updateDiverCostume("diver_alt");
-				}
-				else{
-					updateDiverCostume("diver");
+		costumeCheckbox.addListener(
+			new ActorGestureListener() {
+				@Override
+				public void tap(InputEvent event, float x, float y, int count, int button) {
+					super.tap(event, x, y, count, button);
+					if(costumeCheckbox.isChecked()) {
+						updateDiverCostume("diver_alt");
+					}
+					else{
+						updateDiverCostume("diver");
+					}
 				}
 			}
-		});
+		);
 
 		final Slider musicSlider = new Slider(0, 1, 0.1f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
 		musicSlider.setValue(PREFS.contains("musicVolume") ? PREFS.getFloat("musicVolume") : 0.5f);
 		settingsTable.add(musicSlider).width((WORLD_WIDTH/2) - 100).pad((0.0455f/SCALING) * WORLD_HEIGHT).padBottom((0.05f/SCALING) * WORLD_HEIGHT).row();
-        musicSlider.addListener(new DragListener() {
-	        @Override
-	        public void dragStop(InputEvent event, float x, float y, int pointer) {
-		        super.dragStop(event, x, y, pointer);
-                updateMusicVolume(musicSlider.getValue());
-	        }
-        });
+        musicSlider.addListener(
+	        new DragListener() {
+		        @Override
+		        public void dragStop(InputEvent event, float x, float y, int pointer) {
+			        super.dragStop(event, x, y, pointer);
+	                updateMusicVolume(musicSlider.getValue());
+		        }
+            }
+        );
+		musicSlider.addListener(
+			new ActorGestureListener() {
+				@Override
+				public void tap(InputEvent event, float x, float y, int count, int button) {
+					super.tap(event, x, y, count, button);
+					updateMusicVolume(musicSlider.getValue());
+				}
+			}
+		);
 
 		final Slider diffSlider = new Slider(100, 250, 5f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
 		diffSlider.setValue(PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f);
 		settingsTable.add(diffSlider).width((WORLD_WIDTH/2) - 100).pad((0.0455f/SCALING) * WORLD_HEIGHT).row();
-		diffSlider.addListener(new DragListener() {
-			@Override
-			public void dragStop(InputEvent event, float x, float y, int pointer) {
-				super.dragStop(event, x, y, pointer);
-				updateDifficulty(diffSlider.getValue());
+		diffSlider.addListener(
+			new DragListener() {
+				@Override
+				public void dragStop(InputEvent event, float x, float y, int pointer) {
+					super.dragStop(event, x, y, pointer);
+					updateDifficulty(diffSlider.getValue());
+				}
 			}
-		});
+		);
+		diffSlider.addListener(
+			new ActorGestureListener() {
+				@Override
+				public void tap(InputEvent event, float x, float y, int count, int button) {
+					super.tap(event, x, y, count, button);
+					updateDifficulty(diffSlider.getValue());
+				}
+			}
+		);
 	}
 
 	public void updateDiverCostume(String costumeName) {
