@@ -20,7 +20,7 @@ public class Shark {
     private static final int TILE_WIDTH = 207;
     private static final int TILE_HEIGHT = 133;
     private static final float FRAME_DURATION = 0.15f;
-    private static final float SWIM_SPEED = PREFS.contains("difficulty") ? (float) Math.ceil(PREFS.getInteger("difficulty") + 108f) : 108f;
+    private final float SWIM_SPEED = PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f;
 
     private final Rectangle collisionRect;
     private final Animation swimAnimation;

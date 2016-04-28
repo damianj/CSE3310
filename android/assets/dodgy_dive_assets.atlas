@@ -68,6 +68,20 @@ size: 2048,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
+checkbox
+  rotate: false
+  xy: 1900, 722
+  size: 134, 134
+  orig: 134, 134
+  offset: 0, 0
+  index: -1
+checkbox_checked
+  rotate: false
+  xy: 1900, 583
+  size: 147, 143
+  orig: 147, 143
+  offset: 0, 0
+  index: -1
 credits
   rotate: false
   xy: 1924, 1880
@@ -171,6 +185,20 @@ shark
   xy: 2, 62
   size: 828, 532
   orig: 828, 532
+  offset: 0, 0
+  index: -1
+slider
+  rotate: false
+  xy: 1, 2031
+  size: 758, 16
+  orig: 758, 16
+  offset: 0, 0
+  index: -1
+slider_knob
+  rotate: false
+  xy: 1987, 473
+  size: 60, 109
+  orig: 60, 109
   offset: 0, 0
   index: -1
 title_background

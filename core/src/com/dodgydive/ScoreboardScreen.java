@@ -163,9 +163,9 @@ public class ScoreboardScreen extends ScreenAdapter {
 		// Using expand() we make the newly add UI element and table cell fill up as much space
 		// as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
 		// and set it to align itself with the top right of the screen.
-		table.add(settingsButton).expand().pad(16).align(Align.bottomRight);
-		table.add(homeButton).pad(16).align(Align.bottomRight);
-		table.add(creditsButton).pad(16).align(Align.bottomRight);
+		table.add(settingsButton).size(90, 90).expand().pad(16).align(Align.bottomRight);
+		table.add(homeButton).size(90, 90).pad(16).align(Align.bottomRight);
+		table.add(creditsButton).size(90, 90).pad(16).align(Align.bottomRight);
 
 
 		scoresFileHandle = Gdx.files.local("scores.txt");

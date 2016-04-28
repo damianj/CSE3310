@@ -5,14 +5,20 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ActorGestureListener;
+import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
@@ -34,7 +40,7 @@ public class SettingsScreen extends ScreenAdapter {
 	private final DodgyDiveGame dodgyDiveGame;
 
 	private Stage stage;
-	private Table table;
+	private Table table, settingsTable;
 
 	private TextureRegion backgroundTexture;
 	private TextureRegion creditsTexture;
@@ -43,6 +49,11 @@ public class SettingsScreen extends ScreenAdapter {
 	private TextureRegion homePressedTexture;
 	private TextureRegion scoreboardTexture;
 	private TextureRegion scoreboardPressedTexture;
+	private TextureRegionDrawable sliderBackground;
+	private TextureRegionDrawable sliderKnob;
+	private TextureRegionDrawable checkbox;
+	private TextureRegionDrawable checkboxChecked;
+	private BitmapFont customFont;
 
 
 	public SettingsScreen(DodgyDiveGame dodgyDiveGame) {
@@ -63,6 +74,18 @@ public class SettingsScreen extends ScreenAdapter {
 		// A table is just like an html/excel table that holds UI elements like buttons.
 		table = new Table();
 		table.setFillParent(true);
+		settingsTable = new Table();
+		settingsTable.setFillParent(true);
+
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("score_font.ttf"));
+		FreeTypeFontGenerator.FreeTypeFontParameter parameter = new FreeTypeFontGenerator.FreeTypeFontParameter();
+		parameter.size = 58;
+		parameter.kerning = true;
+		parameter.borderStraight = true;
+		parameter.borderWidth = 1;
+		customFont = generator.generateFont(parameter);
+		customFont.setColor(0, 0, 0, 0.70f); // Make our font slightly transparent so it doesn't obscure sharks during game-play
+		generator.dispose(); // don't forget to dispose to avoid memory leaks!
 
 		// Load the textureAtlas so we can use our images on this screen.
 		TextureAtlas textureAtlas = dodgyDiveGame.getAssetManager().get("dodgy_dive_assets.atlas");
@@ -74,10 +97,14 @@ public class SettingsScreen extends ScreenAdapter {
 		background.setWidth(WORLD_WIDTH);
 		background.setHeight(WORLD_HEIGHT);
 
+		sliderBackground = new TextureRegionDrawable(textureAtlas.findRegion("slider"));
+		sliderKnob = new TextureRegionDrawable(textureAtlas.findRegion("slider_knob"));
+		checkbox = new TextureRegionDrawable(textureAtlas.findRegion("checkbox"));
+		checkboxChecked = new TextureRegionDrawable(textureAtlas.findRegion("checkbox_checked"));
 		// Load up the different states for the settings button (unpressed and pressed states) and
 		// then set up a new image based button using these textures.
-		creditsTexture = textureAtlas.findRegion("settings");
-		creditsPressedTexture = textureAtlas.findRegion("settings_pressed");
+		creditsTexture = textureAtlas.findRegion("credits");
+		creditsPressedTexture = textureAtlas.findRegion("credits_pressed");
 		ImageButton creditsButton = new ImageButton(new TextureRegionDrawable(creditsTexture),
 				new TextureRegionDrawable(creditsPressedTexture));
 
@@ -136,14 +163,74 @@ public class SettingsScreen extends ScreenAdapter {
 		// Here we add UI elements to the stage container and table container
 		stage.addActor(background);
 		stage.addActor(table);
+		stage.addActor(settingsTable);
 
+		table.left();
+		settingsTable.center().top();
 		// Using expand() we make the newly add UI element and table cell fill up as much space
 		// as it can. Using pad(16) and align(Align.topRight) we pad the UI element cells by 16px
 		// and set it to align itself with the top right of the screen.
 		scoreboardButton.padLeft(12);
-		table.add(scoreboardButton).expand().pad(16).align(Align.bottomRight);
-		table.add(homeButton).pad(16).align(Align.bottomRight);
-		table.add(creditsButton).pad(16).align(Align.bottomRight);
+		table.add(scoreboardButton).size(90, 90).pad(16).align(Align.bottomLeft);
+		table.add(homeButton).size(90, 90).pad(16).align(Align.bottomLeft);
+		table.add(creditsButton).size(90, 90).expand().pad(16).align(Align.bottomLeft);
+
+		settingsTable.padLeft(WORLD_WIDTH/2);
+		settingsTable.padTop(239);
+
+		final CheckBox backgroundCheckbox = new CheckBox(null, new CheckBox.CheckBoxStyle(checkbox, checkboxChecked, customFont, null));
+		settingsTable.add(backgroundCheckbox).size(147, 143).pad(33).row();
+		backgroundCheckbox.setChecked(PREFS.contains("gameBackground") ? PREFS.getString("gameBackground").equalsIgnoreCase("background_radioactive") : false);
+		backgroundCheckbox.addListener(new ActorGestureListener() {
+			@Override
+			public void tap(InputEvent event, float x, float y, int count, int button) {
+				super.tap(event, x, y, count, button);
+				if(backgroundCheckbox.isChecked()) {
+					updateGameBackground("background_radioactive");
+				}
+				else{
+					updateGameBackground("background");
+				}
+			}
+		});
+
+		final CheckBox costumeCheckbox = new CheckBox(null, new CheckBox.CheckBoxStyle(checkbox, checkboxChecked, customFont, null));
+		settingsTable.add(costumeCheckbox).size(147, 143).pad(33).row();
+		costumeCheckbox.setChecked(PREFS.contains("diverCostume") ? PREFS.getString("diverCostume").equalsIgnoreCase("diver_alt") : false);
+		costumeCheckbox.addListener(new ActorGestureListener() {
+			@Override
+			public void tap(InputEvent event, float x, float y, int count, int button) {
+				super.tap(event, x, y, count, button);
+				if(costumeCheckbox.isChecked()) {
+					updateDiverCostume("diver_alt");
+				}
+				else{
+					updateDiverCostume("diver");
+				}
+			}
+		});
+
+		final Slider musicSlider = new Slider(0, 1, 0.1f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
+		musicSlider.setValue(PREFS.contains("musicVolume") ? PREFS.getFloat("musicVolume") : 0.5f);
+		settingsTable.add(musicSlider).width((WORLD_WIDTH/2) - 100).pad(33).row();
+        musicSlider.addListener(new DragListener() {
+	        @Override
+	        public void dragStop(InputEvent event, float x, float y, int pointer) {
+		        super.dragStop(event, x, y, pointer);
+                updateMusicVolume(musicSlider.getValue());
+	        }
+        });
+
+		final Slider diffSlider = new Slider(100, 250, 10f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
+		diffSlider.setValue(PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f);
+		settingsTable.add(diffSlider).width((WORLD_WIDTH/2) - 100).pad(33).padTop(42).row();
+		diffSlider.addListener(new DragListener() {
+			@Override
+			public void dragStop(InputEvent event, float x, float y, int pointer) {
+				super.dragStop(event, x, y, pointer);
+				updateDifficulty(diffSlider.getValue());
+			}
+		});
 	}
 
 	public void updateDiverCostume(String costumeName) {
@@ -156,7 +243,7 @@ public class SettingsScreen extends ScreenAdapter {
 		PREFS.flush();
 	}
 
-	public void musicVolume(float volume) {
+	public void updateMusicVolume(float volume) {
 		PREFS.putFloat("musicVolume", volume);
 		PREFS.flush();
 	}
