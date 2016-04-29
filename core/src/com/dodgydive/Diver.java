@@ -37,106 +37,118 @@ public class Diver {
 	 * well as creating the animation and collision rectangle for the diver.
 	 ******************************************************************/
 	public Diver(TextureRegion diverTexture) {
-
-		// We split up all the frames of the diver texture according to the specified dimensions and
-		// then insert them into a 2d array of textures
 		TextureRegion[][] diverTextures = new TextureRegion(diverTexture).split(TILE_WIDTH, TILE_HEIGHT);
 
-		// We loop through the previous array and add each frame to a list for minor convenience
 		Array<TextureRegion> sharkFrames = new Array<TextureRegion>();
 		for(TextureRegion[] diverTextureArr : diverTextures) {
 			for(TextureRegion aDiverTexture : diverTextureArr) sharkFrames.add(aDiverTexture);
 		}
 
-		// Set up an animation for the diver swimming using the list of frames and have it loop
 		swimAnimation = new Animation(FRAME_DURATION, sharkFrames, Animation.PlayMode.LOOP);
 		collisionRect = new Rectangle(x, y, COLLISION_WIDTH, COLLISION_HEIGHT);
 	}
 
-	/*
-	*
-	*   update() - This function is used to update position and animation frame of the diver.
-	*
-	*/
+	/******************************************************************
+	 * Updates the position of the diver.
+	 *
+	 * @param delta float that will be used to update the animation timer.
+	 ******************************************************************/
 	public void update(float delta) {
-		// Update the animationTimer by the amount of time since the last frame was displayed
 		animationTimer += delta;
-
-		// Make the diver sink towards the bottom
 		ySpeed -= DOWN_ACCEL;
 		setPosition(x, y + ySpeed);
 	}
 
+	/******************************************************************
+	 * Getter method for the x-position of the diver.
+	 *
+	 * @return float representing the x-position of the diver
+	 ******************************************************************/
 	public float getX() {
 		return this.x;
 	}
 
+	/******************************************************************
+	 * Getter method for the y-position of the diver.
+	 *
+	 * @return float representing the y-position of the diver
+	 ******************************************************************/
 	public float getY() {
 		return this.y;
 	}
 
+	/******************************************************************
+	 * Getter method for the width of the diver.
+	 *
+	 * @return float representing the width of the diver
+	 ******************************************************************/
 	public float getWidth() {
 		return TILE_WIDTH;
 	}
 
+	/******************************************************************
+	 * Getter method for the height of the diver.
+	 *
+	 * @return float representing the height of the diver
+	 ******************************************************************/
 	public float getHeight() {
 		return TILE_HEIGHT;
 	}
 
-	/*
-	*
-	*   draw() - This function is called when the diver is drawn to the screen.
-	*/
+	/******************************************************************
+	 * Draws the diver onto the screen
+	 *
+	 * @param batch SpriteBatch that will draw the diver onto the screen
+	 ******************************************************************/
 	public void draw(SpriteBatch batch) {
-		// Using animationTimer get the current frame of the diver's swim animation and draw it
-		// in the appropriate place on screen.
 		TextureRegion diverTexture = swimAnimation.getKeyFrame(animationTimer);
-
 		float textureX = collisionRect.x - diverTexture.getRegionWidth();
 		float textureY = collisionRect.y - diverTexture.getRegionHeight();
 
-		batch.draw(diverTexture, textureX + diverTexture.getRegionWidth(),
-				textureY + diverTexture.getRegionHeight());
+		batch.draw(diverTexture, textureX + diverTexture.getRegionWidth(), textureY + diverTexture.getRegionHeight());
 	}
 
-	/*
-	*
-	*   drawDebug() - This function is called when the debugMode is set to true and we want to see
-	*   where the collision geometry is for the diver.
-	*
-	*/
+	/******************************************************************
+	 * Renders the debug collision rectangle for the diver
+	 *
+	 * @param shapeRenderer ShapeRenderer that draws the collision rectangle
+	 ******************************************************************/
 	public void drawDebug(ShapeRenderer shapeRenderer) {
-		shapeRenderer.rect(collisionRect.x, collisionRect.y,
-				collisionRect.width, collisionRect.height);
+		shapeRenderer.rect(collisionRect.x, collisionRect.y, collisionRect.width, collisionRect.height);
 	}
 
-	/*
-	*
-	*   setPosition() - This function sets the position of the diver and then its collision rect
-	*
-	*/
+	/******************************************************************
+	 * Sets the position of the diver and its collision rectangle
+	 *
+	 * @param x float value to be used to set the x-position of the diver
+	 * @param y float value to be used to set the y-position of the diver
+	 ******************************************************************/
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
 		updateCollisionRect();
 	}
 
-	/*
-	*
-	*   swimUp() - This function is called whenever the user taps the screen and makes the diver
-	*   move upwards.
-	*
-	*/
+	/******************************************************************
+	 * Make the diver object go up on screen.
+	 ******************************************************************/
 	public void swimUp() {
 		ySpeed = SWIM_UP_ACCEL;
 		setPosition(x, y + ySpeed);
 	}
 
-	// This function just sets the collision rect's position to the diver position
+	/******************************************************************
+	 * Sets the collision rectangles position to the diver's position
+	 ******************************************************************/
 	private void updateCollisionRect() {
 		collisionRect.setPosition(x, y);
 	}
 
+	/******************************************************************
+	 * Getter method for the collision rectangle.
+	 *
+	 * @return Rectangle representing the collision rectangle for the object.
+	 ******************************************************************/
 	public Rectangle getCollisionRect() {
 		return this.collisionRect;
 	}

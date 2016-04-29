@@ -56,49 +56,70 @@ public class Shark {
 		collisionRect = new Rectangle(x, y, COLLISION_WIDTH, COLLISION_HEIGHT);
 	}
 
-	/*
-	*
-	*   update() - This function is used to update position and animation frame of the shark.
-	*
-	*/
+	/******************************************************************
+	 * Updates the position of the shark.
+	 *
+	 * @param delta float that will be used to move the shark to the left
+	 *              and update the animation timer.
+	 * @param rand float that will be used to randomly move the shark in
+	 *             the y-axis.
+	 ******************************************************************/
 	public void update(float delta, float rand) {
-		// Create a bias so the sharks tend to move in a general y-direction instead of being completely random
 		if(prevRand <= 0 && rand > 0) {
 			rand *= ((new Random().nextInt(10) - 7) <= 0) ? -1 : 1;
-		} else if(prevRand > 0 && rand <= 0) {
+		}
+		else if(prevRand > 0 && rand <= 0) {
 			rand *= ((new Random().nextInt(10) - 3) >= 0) ? -1 : 1;
 		}
+
 		prevRand = rand;
-		// Every frame move the shark to the left
 		animationTimer += delta;
 
 		setPosition(x - (SWIM_SPEED * delta), y + rand);
 	}
 
+	/******************************************************************
+	 * Getter method for the x-position of the shark.
+	 *
+	 * @return float representing the x-position of the shark
+	 ******************************************************************/
 	public float getX() {
 		return this.x;
 	}
 
+	/******************************************************************
+	 * Getter method for the y-position of the shark.
+	 *
+	 * @return float representing the y-position of the shark
+	 ******************************************************************/
 	public float getY() {
 		return this.y;
 	}
 
+	/******************************************************************
+	 * Getter method for the width of the shark.
+	 *
+	 * @return float representing the width of the shark
+	 ******************************************************************/
 	public float getWidth() {
 		return TILE_WIDTH;
 	}
 
+	/******************************************************************
+	 * Getter method for the height of the shark.
+	 *
+	 * @return float representing the height of the shark
+	 ******************************************************************/
 	public float getHeight() {
 		return TILE_HEIGHT;
 	}
 
-	/*
-	*
-	*   draw() - This function is called when the shark is drawn to the screen.
-	*/
+	/******************************************************************
+	 * Draws the shark onto the screen
+	 *
+	 * @param batch SpriteBatch that will draw the shark onto the screen
+	 ******************************************************************/
 	public void draw(SpriteBatch batch) {
-
-		// Using animationTimer get the current frame of the diver's swim animation and draw it
-		// in the appropriate place on screen.
 		TextureRegion sharkTexture = swimAnimation.getKeyFrame(animationTimer);
 
 		float textureX = collisionRect.x - sharkTexture.getRegionWidth() - 2;
@@ -108,34 +129,35 @@ public class Shark {
 				textureY + sharkTexture.getRegionHeight());
 	}
 
-	/*
-	*
-	*   drawDebug() - This function is called when the debugMode is set to true and we want to see
-	*   where the collision geometry is  for the shark.
-	*
-	*/
+	/******************************************************************
+	 * Renders the debug collision rectangle for the shark
+	 *
+	 * @param shapeRenderer ShapeRenderer that draws the collision rectangle
+	 ******************************************************************/
 	public void drawDebug(ShapeRenderer shapeRenderer) {
 		shapeRenderer.rect(collisionRect.x, collisionRect.y,
 				collisionRect.width, collisionRect.height);
 	}
 
-	/*
-	*
-	*   setPosition() - This function sets the position of the shark and then its collision rect
-	*
-	*/
+	/******************************************************************
+	 * Sets the position of the shark and its collision rectangle
+	 *
+	 * @param x the value to be used to set the x-position of the shark
+	 * @param y the value to be used to set the y-position of the shark
+	 ******************************************************************/
 	public void setPosition(float x, float y) {
 		this.x = x;
 		this.y = y;
 		updateCollisionRect();
 	}
 
-	/*
-	*
-	*   hasCollidedWithDiver() - This function checks to see if the diver's rect has intersected
-	*   the shark's rect and returns true or false
-	*
-	*/
+	/******************************************************************
+	 * Checks whether the shark's rectangle has collided with the diver's
+	 * collision rectangle.
+	 *
+	 * @param diver the object to be checked for a collision.
+	 * @return boolean representing whether a collision has happened or not
+	 ******************************************************************/
 	public boolean hasCollidedWithDiver(Diver diver) {
 
 		Rectangle diverCollisionRect = diver.getCollisionRect();
@@ -143,7 +165,9 @@ public class Shark {
 		return Intersector.overlaps(diverCollisionRect, this.collisionRect);
 	}
 
-	// This function just sets the collision rect's position to the shark position
+	/******************************************************************
+	 * Sets the collision rectangles position to the shark's position
+	 ******************************************************************/
 	private void updateCollisionRect() {
 		collisionRect.setPosition(x, y);
 	}
