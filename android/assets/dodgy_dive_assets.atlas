@@ -124,13 +124,6 @@ diver_dead
   orig: 480, 58
   offset: 0, 0
   index: -1
-explosion
-  rotate: false
-  xy: 1028, 418
-  size: 500, 500
-  orig: 500, 500
-  offset: 0, 0
-  index: -1
 home
   rotate: false
   xy: 1918, 120
@@ -157,13 +150,6 @@ scoreboard_pressed
   xy: 1931, 356
   size: 116, 116
   orig: 116, 116
-  offset: 0, 0
-  index: -1
-score_font
-  rotate: false
-  xy: 2, 596
-  size: 1024, 256
-  orig: 1024, 256
   offset: 0, 0
   index: -1
 settings

@@ -36,37 +36,27 @@ public class GameScreen extends ScreenAdapter {
 	private static final int WORLD_WIDTH = Gdx.graphics.getWidth();
 	private static final int WORLD_HEIGHT = Gdx.graphics.getHeight();
 	private static final Preferences PREFS = Gdx.app.getPreferences("Game_Settings");
-
 	private final DodgyDiveGame dodgyDiveGame;
-
 	private boolean debugMode;
-
 	private Music gameMusic;
 	private Music crunchSound = Gdx.audio.newMusic(Gdx.files.internal("crunch_sound.mp3"));
 	private float musicVolume = PREFS.contains("musicVolume") ? PREFS.getFloat("musicVolume") : 0.5f;
-
 	private BitmapFont scoreFont;
 	private BitmapFont debugFont;
 	private GlyphLayout glyphLayout;
 	private int scoreFontSize = 58;
-
 	private Viewport viewport;
 	private Camera camera;
 	private SpriteBatch batch;
 	private ShapeRenderer shapeRenderer;
-
 	private TextureRegion background;
-	private String background_name = PREFS.contains("gameBackground") ? PREFS.getString("gameBackground") : "background"; // background is default, background_radioactive is the other one
-
+	private String background_name = PREFS.contains("gameBackground") ? PREFS.getString("gameBackground") : "background";
 	private Diver diver;
-	private String diver_costume = PREFS.contains("diverCostume") ? PREFS.getString("diverCostume") : "diver"; // diver is default, diver_alt is the other "costume"
-
+	private String diver_costume = PREFS.contains("diverCostume") ? PREFS.getString("diverCostume") : "diver";
 	private TextureRegion sharkTexture;
 	private Array<Shark> sharks = new Array<Shark>();
-
 	private Timer scoreTimer = new Timer();
 	private int score = 0;
-
 	private int sharksOnScreen = 10;
 	private int spaceBetweenSharks = WORLD_WIDTH / (sharksOnScreen);
 	private boolean killedByShark = false;
@@ -174,6 +164,8 @@ public class GameScreen extends ScreenAdapter {
 		debugFont.dispose();
 		batch.dispose();
 		shapeRenderer.dispose();
+		gameMusic.dispose();
+		crunchSound.dispose();
 	}
 
 	/******************************************************************
@@ -191,6 +183,13 @@ public class GameScreen extends ScreenAdapter {
 		updateScores(score);
 		scoreTimer.clear();
 		dodgyDiveGame.setScreen(new StartScreen(dodgyDiveGame));
+
+		while(true) {
+			if(!crunchSound.isPlaying()) {
+				break; /* Wait for the crunching sound to finish playing */
+			}
+		}
+
 		dispose();
 	}
 

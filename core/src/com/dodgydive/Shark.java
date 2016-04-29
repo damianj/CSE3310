@@ -66,10 +66,10 @@ public class Shark {
 	 ******************************************************************/
 	public void update(float delta, float rand) {
 		if(prevRand <= 0 && rand > 0) {
-			rand *= ((new Random().nextInt(10) - 7) <= 0) ? -1 : 1;
+			rand *= ((new Random().nextInt(10) - 6) <= 0) ? -1 : 1;
 		}
 		else if(prevRand > 0 && rand <= 0) {
-			rand *= ((new Random().nextInt(10) - 3) >= 0) ? -1 : 1;
+			rand *= ((new Random().nextInt(10) - 4) >= 0) ? -1 : 1;
 		}
 
 		prevRand = rand;

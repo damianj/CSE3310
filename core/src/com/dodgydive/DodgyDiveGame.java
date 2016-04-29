@@ -22,7 +22,6 @@ public class DodgyDiveGame extends Game {
 	@Override
 	public void create() {
 		assetManager.load("dodgy_dive_assets.atlas", TextureAtlas.class);
-		assetManager.load("score_font.fnt", BitmapFont.class);
 		assetManager.load("debug_font.fnt", BitmapFont.class);
 
 		assetManager.finishLoading();
