@@ -19,8 +19,8 @@ import com.badlogic.gdx.utils.Array;
 public class Diver {
 	private static final float COLLISION_WIDTH = 118f;
 	private static final float COLLISION_HEIGHT = 56f;
-	private static final float DOWN_ACCEL = 0.125f;
-	private static final float SWIM_UP_ACCEL = 2f;
+	private static final float DOWN_ACCELERATION = 0.125f;
+	private static final float SWIM_UP_ACCELERATION = 2f;
 	private static final int TILE_WIDTH = 120;
 	private static final int TILE_HEIGHT = 58;
 	private static final float FRAME_DURATION = 0.15f;
@@ -55,7 +55,7 @@ public class Diver {
 	 ******************************************************************/
 	public void update(float delta) {
 		animationTimer += delta;
-		ySpeed -= DOWN_ACCEL;
+		ySpeed -= DOWN_ACCELERATION;
 		setPosition(x, y + ySpeed);
 	}
 
@@ -133,7 +133,7 @@ public class Diver {
 	 * Make the diver object go up on screen.
 	 ******************************************************************/
 	public void swimUp() {
-		ySpeed = SWIM_UP_ACCEL;
+		ySpeed = SWIM_UP_ACCELERATION;
 		setPosition(x, y + ySpeed);
 	}
 

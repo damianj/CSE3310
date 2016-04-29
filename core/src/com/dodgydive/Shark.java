@@ -92,6 +92,7 @@ public class Shark {
 	 *
 	 * @return float representing the y-position of the shark
 	 ******************************************************************/
+	@SuppressWarnings("unused")
 	public float getY() {
 		return this.y;
 	}
