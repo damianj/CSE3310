@@ -303,13 +303,6 @@ public class GameScreen extends ScreenAdapter {
 		sharks.add(newShark);
 	}
 
-	/*
-	*
-	*   updateSharks() - This function updates and keeps track of all the sharks on the screen,
-	*   making sure that only the specified number of sharksOnScreen are in the sharks list and on
-	*   the screen. The more sharks the less space between each shark.
-	*
-	*/
 	/******************************************************************
 	 * Updates and keeps track of all the sharks on the screen, making sure
 	 * that only a specified number of sharks are in the sharks list/screen.

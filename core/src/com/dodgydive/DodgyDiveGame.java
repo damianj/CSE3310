@@ -21,13 +21,10 @@ public class DodgyDiveGame extends Game {
 	 ******************************************************************/
 	@Override
 	public void create() {
-		// Load up the texture atlas along with several fonts using the asset manager.
 		assetManager.load("dodgy_dive_assets.atlas", TextureAtlas.class);
 		assetManager.load("score_font.fnt", BitmapFont.class);
 		assetManager.load("debug_font.fnt", BitmapFont.class);
 
-		// Make sure the asset manager finishes loading all of the resources and then set the screen
-		// to the start screen.
 		assetManager.finishLoading();
 		setScreen(new StartScreen(this));
 	}
