@@ -65,19 +65,21 @@ public class Shark {
 	 *             the y-axis.
 	 ******************************************************************/
 	public void update(float delta, float rand) {
-		prevRand = prevRand == null ? rand : prevRand;
+		float r = rand;
 
-		if(prevRand < 0 && rand > 0) {
-			rand *= ((new Random().nextInt(11) - 9) < 0) ? -1 : 1;
+		prevRand = prevRand == null ? r : prevRand;
+
+		if(prevRand < 0 && r > 0) {
+			r *= ((new Random().nextInt(11) - 9.5f) <= 0.0f) ? -1f : 1f;
 		}
-		else if(prevRand > 0 && rand < 0) {
-			rand *= ((new Random().nextInt(11) - 1) > 0) ? -1 : 1;
+		else if(prevRand > 0 && r < 0) {
+			r *= ((new Random().nextInt(11) - 0.5f) >= 0.0f) ? -1f : 1f;
 		}
 
-		prevRand = rand;
+		prevRand = r;
 		animationTimer += delta;
 
-		setPosition(x - (SWIM_SPEED * delta), y + rand);
+		setPosition(x - (SWIM_SPEED * delta), y + r);
 	}
 
 	/******************************************************************

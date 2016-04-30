@@ -111,12 +111,27 @@ public class GameScreen extends ScreenAdapter {
 		sharkTexture = textureAtlas.findRegion("shark");
 
 		scoreTimer.scheduleTask(new Timer.Task() {
-
 			@Override
 			public void run() {
-				score += 10;
-			}
+				int bonus = 0;
 
+				if(PREFS.contains("difficulty")) {
+					if(PREFS.getFloat("difficulty") >= 150 && PREFS.getFloat("difficulty") < 250) {
+						bonus = 5;
+					}
+					else if(PREFS.getFloat("difficulty") >= 250 && PREFS.getFloat("difficulty") < 350) {
+						bonus = 10;
+					}
+					else if(PREFS.getFloat("difficulty") >= 350 && PREFS.getFloat("difficulty") < 450) {
+						bonus = 15;
+					}
+					else if(PREFS.getFloat("difficulty") >= 450) {
+						bonus = 20;
+					}
+				}
+
+				score += (10 + bonus);
+			}
 		}, 1f, 1f);
 		scoreTimer.start();
 
