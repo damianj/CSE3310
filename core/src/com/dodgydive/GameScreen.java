@@ -309,7 +309,7 @@ public class GameScreen extends ScreenAdapter {
 	 ******************************************************************/
 	private void updateSharks(float delta) {
 		for(Shark shark : sharks) {
-			shark.update(delta, new Random().nextFloat() * (new Random().nextInt(10) - 5));
+			shark.update(delta, new Random().nextFloat() * (new Random().nextInt(11) - 5));
 		}
 
 		if(sharks.size > 0) {

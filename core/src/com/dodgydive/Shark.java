@@ -32,7 +32,7 @@ public class Shark {
 	private final float SWIM_SPEED = PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f;
 	private final Rectangle collisionRect;
 	private final Animation swimAnimation;
-	private static float prevRand = 0.0f;
+	private Float prevRand = null;
 	private float x;
 	private float y;
 	private float animationTimer = 0;
@@ -65,11 +65,13 @@ public class Shark {
 	 *             the y-axis.
 	 ******************************************************************/
 	public void update(float delta, float rand) {
-		if(prevRand <= 0 && rand > 0) {
-			rand *= ((new Random().nextInt(10) - 7) <= 0) ? -1 : 1;
+		prevRand = prevRand == null ? rand : prevRand;
+
+		if(prevRand < 0 && rand > 0) {
+			rand *= ((new Random().nextInt(11) - 9) < 0) ? -1 : 1;
 		}
-		else if(prevRand > 0 && rand <= 0) {
-			rand *= ((new Random().nextInt(10) - 3) >= 0) ? -1 : 1;
+		else if(prevRand > 0 && rand < 0) {
+			rand *= ((new Random().nextInt(11) - 1) > 0) ? -1 : 1;
 		}
 
 		prevRand = rand;
