@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
@@ -29,13 +30,15 @@ public class Shark {
 	private static final int TILE_WIDTH = 207;
 	private static final int TILE_HEIGHT = 133;
 	private static final float FRAME_DURATION = 0.15f;
-	private final float SWIM_SPEED = PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f;
+	private final float SWIM_SPEED = 1.25f * (PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f);
 	private final Rectangle collisionRect;
 	private final Animation swimAnimation;
 	private Float prevRand = null;
 	private float x;
 	private float y;
 	private float animationTimer = 0;
+	private float gameDifficulty = PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f;
+	private float sharkFollowRange = 1.3f * gameDifficulty;
 
 	/******************************************************************
 	 * Constructor method for the class. Set's up the Shark instance
@@ -61,23 +64,36 @@ public class Shark {
 	 *
 	 * @param delta float that will be used to move the shark to the left
 	 *              and update the animation timer.
-	 * @param rand float that will be used to randomly move the shark in
-	 *             the y-axis.
+     *
 	 ******************************************************************/
-	public void update(float delta, float rand) {
-		prevRand = prevRand == null ? rand : prevRand;
+	public void update(float delta, float rand, Diver diver) {
 
-		if(prevRand < 0 && rand > 0) {
-			rand *= ((new Random().nextInt(11) - 9) < 0) ? -1 : 1;
-		}
-		else if(prevRand > 0 && rand < 0) {
-			rand *= ((new Random().nextInt(11) - 1) > 0) ? -1 : 1;
-		}
+        float r = rand;
 
-		prevRand = rand;
+        prevRand = prevRand == null ? r : prevRand;
+
+        if(prevRand < 0 && r > 0) {
+            r *= ((new Random().nextInt(11) - 9.5f) <= 0.0f) ? -1f : 1f;
+        }
+        else if(prevRand > 0 && r < 0) {
+            r *= ((new Random().nextInt(11) - 0.5f) >= 0.0f) ? -1f : 1f;
+        }
+
+        prevRand = r;
+
+        float swimDirection = 0; // Direction shark should swim, no direction == 0, up > 0, down < 0
+
+        if(diverInRange(diver))
+        {
+            if(diver.getY() > y) swimDirection = 1.15f * (SWIM_SPEED/150);
+            else if (diver.getY() < y) swimDirection = -1.15f * (SWIM_SPEED/150);
+            else swimDirection = 0;
+        }
+
 		animationTimer += delta;
 
-		setPosition(x - (SWIM_SPEED * delta), y + rand);
+
+		setPosition(x - (SWIM_SPEED * delta), y + (swimDirection + rand));
 	}
 
 	/******************************************************************
@@ -125,11 +141,10 @@ public class Shark {
 	public void draw(SpriteBatch batch) {
 		TextureRegion sharkTexture = swimAnimation.getKeyFrame(animationTimer);
 
-		float textureX = collisionRect.x - sharkTexture.getRegionWidth() - 2;
-		float textureY = collisionRect.y - sharkTexture.getRegionHeight() - 32;
+		float textureX = collisionRect.x - 2;
+		float textureY = collisionRect.y - 32;
 
-		batch.draw(sharkTexture, textureX + sharkTexture.getRegionWidth(),
-				textureY + sharkTexture.getRegionHeight());
+		batch.draw(sharkTexture, textureX, textureY);
 	}
 
 	/******************************************************************
@@ -140,6 +155,10 @@ public class Shark {
 	public void drawDebug(ShapeRenderer shapeRenderer) {
 		shapeRenderer.rect(collisionRect.x, collisionRect.y,
 				collisionRect.width, collisionRect.height);
+
+        float sharkCenterX = collisionRect.x + (COLLISION_WIDTH / 2);
+        float sharkCenterY = collisionRect.y + (COLLISION_HEIGHT / 2);
+        shapeRenderer.arc(sharkCenterX, sharkCenterY, sharkFollowRange, 90, 180);
 	}
 
 	/******************************************************************
@@ -166,6 +185,26 @@ public class Shark {
 		Rectangle diverCollisionRect = diver.getCollisionRect();
 
 		return Intersector.overlaps(diverCollisionRect, this.collisionRect);
+	}
+
+	/******************************************************************
+	 * Checks whether the shark is within follow range of the diver
+	 *
+	 * @param diver the object whose range will be checked for following distance.
+	 * @return boolean representing whether the shark is in range or not
+	 ******************************************************************/
+	public boolean diverInRange(Diver diver) {
+
+        boolean result = false;
+        float sharkCenterX = collisionRect.x + (COLLISION_WIDTH / 2);
+        float sharkCenterY = collisionRect.y + (COLLISION_HEIGHT / 2);
+
+        if(sharkCenterX > diver.getX())
+        {
+            result = Intersector.overlaps(new Circle(sharkCenterX, sharkCenterY, sharkFollowRange),
+                    diver.getCollisionRect());
+        }
+        return result;
 	}
 
 	/******************************************************************

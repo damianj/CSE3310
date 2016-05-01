@@ -200,7 +200,7 @@ public class SettingsScreen extends ScreenAdapter {
 				}
 		);
 
-		final Slider diffSlider = new Slider(100, 250, 5f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
+		final Slider diffSlider = new Slider(100, 500, 5f, false, new Slider.SliderStyle(sliderBackground, sliderKnob));
 		diffSlider.setValue(PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f);
 		settingsTable.add(diffSlider).width((WORLD_WIDTH / 2) - 100).pad((0.0455f / SCALING) * WORLD_HEIGHT).row();
 		diffSlider.addListener(

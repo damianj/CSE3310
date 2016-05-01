@@ -19,13 +19,13 @@ import com.badlogic.gdx.utils.Array;
 public class Diver {
 	private static final float COLLISION_WIDTH = 118f;
 	private static final float COLLISION_HEIGHT = 56f;
-	private static final float DOWN_ACCELERATION = 0.125f;
 	private static final float SWIM_UP_ACCELERATION = 2f;
 	private static final int TILE_WIDTH = 120;
 	private static final int TILE_HEIGHT = 58;
 	private static final float FRAME_DURATION = 0.15f;
 	private final Rectangle collisionRect;
 	private final Animation swimAnimation;
+    private float downAcceleration = 0.125f;
 	private float x = 0;
 	private float y = 0;
 	private float ySpeed = 0;
@@ -36,15 +36,15 @@ public class Diver {
 	 * and set's the texture that will be used to display the diver, as
 	 * well as creating the animation and collision rectangle for the diver.
 	 ******************************************************************/
-	public Diver(TextureRegion diverTexture) {
+	public Diver(TextureRegion diverTexture, TextureRegion deathTexture) {
 		TextureRegion[][] diverTextures = new TextureRegion(diverTexture).split(TILE_WIDTH, TILE_HEIGHT);
 
-		Array<TextureRegion> sharkFrames = new Array<TextureRegion>();
+		Array<TextureRegion> diverFrames = new Array<TextureRegion>();
 		for(TextureRegion[] diverTextureArr : diverTextures) {
-			for(TextureRegion aDiverTexture : diverTextureArr) sharkFrames.add(aDiverTexture);
+			for(TextureRegion aDiverTexture : diverTextureArr) diverFrames.add(aDiverTexture);
 		}
 
-		swimAnimation = new Animation(FRAME_DURATION, sharkFrames, Animation.PlayMode.LOOP);
+		swimAnimation = new Animation(FRAME_DURATION, diverFrames, Animation.PlayMode.LOOP);
 		collisionRect = new Rectangle(x, y, COLLISION_WIDTH, COLLISION_HEIGHT);
 	}
 
@@ -55,7 +55,7 @@ public class Diver {
 	 ******************************************************************/
 	public void update(float delta) {
 		animationTimer += delta;
-		ySpeed -= DOWN_ACCELERATION;
+		ySpeed -= downAcceleration;
 		setPosition(x, y + ySpeed);
 	}
 
@@ -101,8 +101,10 @@ public class Diver {
 	 * @param batch SpriteBatch that will draw the diver onto the screen
 	 ******************************************************************/
 	public void draw(SpriteBatch batch) {
-		TextureRegion diverTexture = swimAnimation.getKeyFrame(animationTimer);
-		float textureX = collisionRect.x - diverTexture.getRegionWidth();
+
+        TextureRegion diverTexture = swimAnimation.getKeyFrame(animationTimer);
+
+        float textureX = collisionRect.x - diverTexture.getRegionWidth();
 		float textureY = collisionRect.y - diverTexture.getRegionHeight();
 
 		batch.draw(diverTexture, textureX + diverTexture.getRegionWidth(), textureY + diverTexture.getRegionHeight());
