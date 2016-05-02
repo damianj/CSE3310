@@ -299,4 +299,3 @@ public class SettingsScreen extends ScreenAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 	}
 }
-

@@ -57,9 +57,10 @@ public class GameScreen extends ScreenAdapter {
 	private Array<Shark> sharks = new Array<Shark>();
 	private Timer scoreTimer = new Timer();
 	private int score = 0;
+	private boolean killedByShark = false;
+	private float gameDifficulty = PREFS.contains("difficulty") ? PREFS.getFloat("difficulty") : 175f;
 	private int sharksOnScreen = 10;
 	private int spaceBetweenSharks = WORLD_WIDTH / (sharksOnScreen);
-	private boolean killedByShark = false;
 
 	/******************************************************************
 	 * Constructor method for the class. Set's up a DodgyDiveGame instance
@@ -105,7 +106,8 @@ public class GameScreen extends ScreenAdapter {
 		background = textureAtlas.findRegion(background_name);
 
 		TextureRegion diverTexture = textureAtlas.findRegion(diver_costume);
-		diver = new Diver(diverTexture);
+		TextureRegion diverDeadTexture = textureAtlas.findRegion("diver_dead");
+		diver = new Diver(diverTexture, diverDeadTexture);
 		diver.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
 
 		sharkTexture = textureAtlas.findRegion("shark");
@@ -113,6 +115,7 @@ public class GameScreen extends ScreenAdapter {
 		scoreTimer.scheduleTask(new Timer.Task() {
 			@Override
 			public void run() {
+
 				int bonus = 0;
 
 				if(PREFS.contains("difficulty")) {
@@ -241,8 +244,10 @@ public class GameScreen extends ScreenAdapter {
 		shapeRenderer.setProjectionMatrix(camera.projection);
 		shapeRenderer.setTransformMatrix(camera.view);
 
-		String debugString = String.format(Locale.US, "FPS: %d\nPOS X: %d\nPOS Y: %d",
-				Gdx.graphics.getFramesPerSecond(), (int) diver.getX(), (int) diver.getY());
+		float sharkFollowRange = 1.3f * gameDifficulty;
+
+		String debugString = String.format(Locale.US, "FPS: %d\nPOS X: %d\nPOS Y: %d\nDifficulty: %.2fx\nShark Follow Range: %.2f",
+				Gdx.graphics.getFramesPerSecond(), (int) diver.getX(), (int) diver.getY(), (gameDifficulty/100), sharkFollowRange);
 		glyphLayout.setText(debugFont, debugString);
 
 		batch.begin();
@@ -275,6 +280,7 @@ public class GameScreen extends ScreenAdapter {
 	 * Updates the position and state of all objects in the game.
 	 ******************************************************************/
 	private void update(float delta) {
+
 		diver.update(delta);
 		updateSharks(delta);
 
@@ -324,7 +330,7 @@ public class GameScreen extends ScreenAdapter {
 	 ******************************************************************/
 	private void updateSharks(float delta) {
 		for(Shark shark : sharks) {
-			shark.update(delta, new Random().nextFloat() * (new Random().nextInt(11) - 5));
+			shark.update(delta, new Random().nextFloat() * (new Random().nextInt(11) - 5), diver);
 		}
 
 		if(sharks.size > 0) {
