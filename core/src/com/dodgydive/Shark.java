@@ -43,6 +43,8 @@ public class Shark {
 	 * Constructor method for the class. Set's up the Shark instance
 	 * and set's the texture that will be used to display the Shark, as
 	 * well as creating the animation and collision rectangle for the Shark.
+	 *
+	 * @param sharkTexture Texture for the sharks.
 	 ******************************************************************/
 	public Shark(TextureRegion sharkTexture) {
 		TextureRegion[][] sharkTextures = new TextureRegion(sharkTexture).split(TILE_WIDTH, TILE_HEIGHT);

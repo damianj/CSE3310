@@ -35,6 +35,9 @@ public class Diver {
 	 * Constructor method for the class. Set's up the diver instance
 	 * and set's the texture that will be used to display the diver, as
 	 * well as creating the animation and collision rectangle for the diver.
+	 *
+	 * @param diverTexture Texture for the diver while they are alive
+	 * @param deathTexture Texture for the diver when they die (unused)
 	 ******************************************************************/
 	public Diver(TextureRegion diverTexture, TextureRegion deathTexture) {
 		TextureRegion[][] diverTextures = new TextureRegion(diverTexture).split(TILE_WIDTH, TILE_HEIGHT);

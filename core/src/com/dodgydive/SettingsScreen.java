@@ -42,6 +42,9 @@ public class SettingsScreen extends ScreenAdapter {
 
 	/******************************************************************
 	 * Constructor method for the class. Set's up a DodgyDiveGame instance
+	 *
+	 * @param dodgyDiveGame Instance of dodgy dive on which to draw the assets
+	 *                      from our class.
 	 ******************************************************************/
 	public SettingsScreen(DodgyDiveGame dodgyDiveGame) {
 		this.dodgyDiveGame = dodgyDiveGame;
