@@ -109,8 +109,7 @@ public class GameScreen extends ScreenAdapter {
 		background = textureAtlas.findRegion(background_name);
 
 		TextureRegion diverTexture = textureAtlas.findRegion(diver_costume);
-		TextureRegion diverDeadTexture = textureAtlas.findRegion("diver_dead");
-		diver = new Diver(diverTexture, diverDeadTexture);
+		diver = new Diver(diverTexture);
 		diver.setPosition(WORLD_WIDTH / 4, WORLD_HEIGHT / 2);
 
 		sharkTexture = textureAtlas.findRegion("shark");

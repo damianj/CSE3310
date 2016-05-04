@@ -25,7 +25,6 @@ public class Diver {
 	private static final float FRAME_DURATION = 0.15f;
 	private final Rectangle collisionRect;
 	private final Animation swimAnimation;
-	private float downAcceleration = 0.125f;
 	private float x = 0;
 	private float y = 0;
 	private float ySpeed = 0;
@@ -37,9 +36,8 @@ public class Diver {
 	 * well as creating the animation and collision rectangle for the diver.
 	 *
 	 * @param diverTexture Texture for the diver while they are alive
-	 * @param deathTexture Texture for the diver when they die (unused)
 	 ******************************************************************/
-	public Diver(TextureRegion diverTexture, TextureRegion deathTexture) {
+	public Diver(TextureRegion diverTexture) {
 		TextureRegion[][] diverTextures = new TextureRegion(diverTexture).split(TILE_WIDTH, TILE_HEIGHT);
 
 		Array<TextureRegion> diverFrames = new Array<TextureRegion>();
@@ -58,6 +56,7 @@ public class Diver {
 	 ******************************************************************/
 	public void update(float delta) {
 		animationTimer += delta;
+		float downAcceleration = 0.125f;
 		ySpeed -= downAcceleration;
 		setPosition(x, y + ySpeed);
 	}
